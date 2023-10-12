@@ -7,7 +7,7 @@ from itertools import combinations_with_replacement # 중복조합
 def solution(n, info):
     answer = [-1]
     max_gap = -1
-    num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # 10, 9, 8, ... 3, 2, 1, 0 순이면 안됨
+    num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # 이렇게 해야 초반일수록 적은 숫자들이 포함 됨. 그래서 점수차 같은 경우는 굳이 고려 안해도 됨.
     combi = list(combinations_with_replacement(num, n))
     for com in combi:
         score = [0] * 11 # 라이언 점수. 이거도 앞쪽부터 10점, 9점 짜리
