@@ -1,18 +1,15 @@
-def solve(idx, M):
-    if idx == M:
-        for i in range(M):
-            print(perm[i], end=' ')
-        print()
-        return
-    for j in range(N):
-        if not used[j]:
-            perm[idx] = arr[j]
-            used[j] = 1
-            solve(idx+1, M)
-            used[j] = 0
-
 N, M = map(int, input().split())
-arr = [x for x in range(1, N+1)]
-perm = [0] * M
-used = [0] * N
-solve(0, M)
+
+ans = [0] * M
+used = [False] * (N+1)
+def func(index, N, M):
+    if index == M:
+        print(" ".join(map(str, ans)))
+        return
+    for i in range(1, N+1):
+        if not used[i]:
+            ans[index] = i
+            used[i] = True
+            func(index+1, N, M)
+            used[i] = False
+func(0, N, M)
