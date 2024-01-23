@@ -1,32 +1,32 @@
+# 0이면 가로 1이면 세로
 N, M = map(int, input().split())
-board = [list(input()) for _ in range(N)]
-ans = -1
-# 0: 가로     1: 세로
-for i in range(1<<(N*M)):
-    visited = [False] * (N*M)
-    nums = 0
-    for j in range(N*M):
-        if i & (1 << j) == 0 and not visited[j]: # 방문하지 않은 가로라면
-            visited[j] = True
-            ga = board[j//M][j%M]
-            for k in range(1, M):
-                if i & (1 << (j+k)) == 0 and (j+k) % M != 0 and not visited[j+k]:
-                    visited[j+k] = True
-                    ga += board[(j+k)//M][(j+k)%M]
-                else:
-                    break
+board = [list(map(int, input())) for _ in range(N)]
+ans = 0
+for i in range(1<< (N*M)):
+    total = 0
+    # 가로 합
+    for row in range(N):
+        rowsum = 0
+        for col in range(M):
+            idx = row*M + col # 2차원 배열을 1차원 배열로 바꿨을때 인덱스
+            if i & (1 << idx) == 0:
+                rowsum = rowsum * 10 + board[row][col]
+            else:
+                total += rowsum
+                rowsum = 0 # 한 줄에 가로인게 잘려서 여러개일수도 있으니깐
+        total += rowsum
 
-            nums += int(ga)
-        elif i & (1 << j) != 0 and not visited[j]: # 방문하지 않은 tpfh라면
-            visited[j] = True
-            se = board[j//M][j%M]
-            for k in range(1, N):
-                if i & (1 << (j+(k*M))) != 0 and (j+(k*M)) < (N*M) and not visited[j+(k*M)]:
-                    visited[j+(k*M)] = True
-                    se += board[(j+(k*M))//M][(j+(k*M))%M]
-                else:
-                    break
-            nums += int(se)
-    if nums > ans:
-        ans = nums
+    # 세로 합
+    for col in range(M):
+        colsum = 0
+        for row in range(N):
+            idx = row*M + col
+            if i & (1 << idx) != 0:
+                colsum = colsum*10 + board[row][col]
+            else:
+                total += colsum
+                colsum = 0
+        total += colsum
+    if ans < total:
+        ans = total
 print(ans)
