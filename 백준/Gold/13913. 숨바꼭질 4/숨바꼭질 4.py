@@ -1,31 +1,37 @@
 from collections import deque
+import sys
 MAX = 200000
+sys.setrecursionlimit(MAX)
+checked = [False] * MAX
+board = [-1] * MAX
+via = [-1] * MAX
 
 N, K = map(int, input().split())
-board = [[-1, -1] for _ in range(MAX+1)]
-checked = [False] * (MAX+1)
-ans = []
+checked[N] = True
+board[N] = 0
+
 q = deque()
 q.append(N)
-board[N][0] = 0
-checked[N] = True
 while q:
-    idx = q.popleft()
-    if idx == K:
-        print(board[K][0])
-        ans.append(idx)
-        while True:
-            if board[idx][1] == -1:
-                break
-            ans.append(board[idx][1])
-            idx = board[idx][1]
-        break
-    for n_idx in [idx-1, idx+1, idx*2]:
-        if 0 <= n_idx <= MAX and checked[n_idx] == False:
-            q.append(n_idx)
-            checked[n_idx] = True
-            board[n_idx][0] = board[idx][0] + 1
-            board[n_idx][1] = idx
-ans.reverse()
-for i in ans:
-    print(i, end=' ')
+    now = q.popleft()
+    if now-1 >= 0 and not checked[now-1]:
+        q.append(now-1)
+        checked[now-1] = True
+        board[now-1]  = board[now] + 1
+        via[now-1] = now
+    if now+1 < MAX and not checked[now+1]:
+        q.append(now+1)
+        checked[now+1] = True
+        board[now+1] = board[now] + 1
+        via[now+1] = now
+    if now*2 < MAX and not checked[now*2]:
+        q.append(now*2)
+        checked[now*2] = True
+        board[now*2] = board[now] + 1
+        via[now*2] = now
+print(board[K])
+def go(n, k):
+    if n != k:
+        go(n, via[k])
+    print(k, end = ' ')
+go(N, K)
