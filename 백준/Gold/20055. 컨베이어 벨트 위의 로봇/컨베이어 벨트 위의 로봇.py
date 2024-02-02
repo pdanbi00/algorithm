@@ -4,8 +4,13 @@ boxes = [False] * (2*N)
 ans = 1
 zero = 0
 while True:
-    belt = [belt[-1]] + belt[:-1]
-    boxes = [boxes[-1]] + boxes[:-1]
+    temp1 = belt[2*N-1]
+    temp2 = boxes[2*N-1]
+    for i in range(2*N-1, 0, -1):
+        belt[i] = belt[i-1]
+        boxes[i] = boxes[i-1]
+    belt[0] = temp1
+    boxes[0] = temp2
     if boxes[N-1]:
         boxes[N-1] = False
 
