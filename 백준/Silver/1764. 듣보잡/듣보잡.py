@@ -1,17 +1,18 @@
+# 교집합 만들어서 풀기
 import sys
 input = sys.stdin.readline
-
 N, M = map(int, input().split())
-name_list = {}
-ans_name = []
+a = []
+b = []
 for i in range(N):
     name = input().strip()
-    name_list[name] = 1
+    a.append(name)
 for i in range(M):
     name = input().strip()
-    if name in name_list:
-        ans_name.append(name)
-ans_name.sort()
-print(len(ans_name))
-for n in ans_name:
+    b.append(name)
+
+answer = list(set(a) & set(b))
+answer.sort()
+print(len(answer))
+for n in answer:
     print(n)
