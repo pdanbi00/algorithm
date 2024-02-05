@@ -1,15 +1,13 @@
-# deque 쓰는 방법
-from collections import deque
+# 두번째 방법
 N, K = map(int, input().split())
-nums = deque([i for i in range(1, N+1)])
 
+# 요세푸스 순열 생성
+idx = 0
+nums = [i for i in range(1, N+1)]
 result = []
 while nums:
-    for i in range(K-1):
-        nums.append(nums.popleft())
-    result.append(nums.popleft())
-
-print('<', end='')
-for i in range(len(result)-1):
-    print(result[i], end=', ')
-print(result[-1], end='>')
+    idx += (K-1) # K-1번 인덱스까지 건너뛰기
+    if idx >= len(nums): # 인덱스가 범위를 넘어가면
+        idx %= len(nums) # 나머지 연산으로 줄여주기
+    result.append(str(nums.pop(idx)))
+print("<", ", ".join(result), ">", sep="")
