@@ -1,30 +1,41 @@
-from heapq import heappop, heappush, heapify
+from heapq import heappush, heappop
+import sys
+input = sys.stdin.readline
+
 T = int(input())
 for _ in range(T):
     k = int(input())
     max_heap = []
     min_heap = []
-    check = [1] * k
+    visited = [False] * k
     for i in range(k):
-        char, n = input().split()
-        n = int(n)
-        if char == 'I':
-            heappush(min_heap, (n, i))
-            heappush(max_heap, (-n, i))
-        elif char == 'D':
-            # 원소를 제거함과 동시에 해당하는 숫자의 인덱스를 통해 check의 1을 0으로 삭제되었음을 표시.
-            if n == 1:
-                if max_heap:
-                    check[heappop(max_heap)[1]] = 0 # 삭제한거 표시
-            if n == -1:
+        char, num = input().split()
+        num = int(num)
+        if char == "I":
+            heappush(max_heap, (-num, i))
+            heappush(min_heap, (num, i))
+            visited[i] = True
+        elif char == "D":
+            if num == -1: # 삭제연산시, key 값을 기준으로(i 값) 해당 노드가 다른 힙에서 삭제된 노드인지 확인
+                # 이미 상대힙에 의해 삭제된 노드인 경우 삭제되지 않은 노드가 나오는 동안 계속 버리다가 삭제대상 노드가 나오면 삭제
+                while min_heap and not visited[min_heap[0][1]]: # 해당 노드가 삭제된 상태
+                    heappop(min_heap) # 상대힙에서 이미 삭제된 노드이기 때문에
                 if min_heap:
-                    check[heappop(min_heap)[1]] = 0 # 삭제한거 표시
-        # 다음 제거 대상이 될 인덱스에 있는 원소가 이미 다른 쪽에서 지워진 원소면 제거
-        while min_heap and check[min_heap[0][1]] == 0:
-            heappop(min_heap)
-        while max_heap and check[max_heap[0][1]] == 0:
-            heappop(max_heap)
-    if len(min_heap) == 0:
-        print("EMPTY")
-    else:
+                    visited[min_heap[0][1]] = False
+                    heappop(min_heap)
+            elif num == 1:
+                while max_heap and not visited[max_heap[0][1]]:
+                    heappop(max_heap)
+                if max_heap:
+                    visited[max_heap[0][1]] = False
+                    heappop(max_heap)
+    # 모든 연산이 끝난 이후에도 쓰레기 노드가 들어있을 수 있어서 다 비우기
+    while min_heap and not visited[min_heap[0][1]]:
+        heappop(min_heap)
+    while max_heap and not visited[max_heap[0][1]]:
+        heappop(max_heap)
+
+    if max_heap and min_heap:
         print(-max_heap[0][0], min_heap[0][0])
+    else:
+        print("EMPTY")
