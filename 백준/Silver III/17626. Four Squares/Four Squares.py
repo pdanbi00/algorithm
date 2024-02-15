@@ -1,25 +1,17 @@
-# 완탐으로 풀기
-# 풀이: 1. 일단 n이 제곱수이면 당연히 1 출력
-#       2. 두 제곱수의 합으로 표현할 수 있다면 2 출력
-#       (두 제곱수의 합을 저장하는 리스트를 따로 만들어두셈)
-#       3. 제곱 수 리스트 돌면서 n - 제곱수 한 결과가 제곱수 합 리스트에 있으면 3 출력
-#       n = (두 제곱수의 합) + (제곱수)인거니깐
-#       4. 나머지 경우는 전부 4 출력. (모든 자연수는 넷 혹은 그 이하의 제곱수의 합으로 표현할 수 있다고 했으니깐 최대 4개)
+# dp로 풀기
+# dp[i] : i를 만들때 필요로 하는 제곱 수들의 개수
+# dp[N]을 구하면 됨
+# 예를 들어서 dp[8]의 경우 8 이전에 존재하는 제곱수는 1, 4가 있다.
+# 그러므로 dp[8]의 개수를 셀 수 있는 경우는 dp[1] + dp[7], dp[4] + dp[4]가 존재하는데
+# 이를 구하기 위해선 n에서 각 제곱수들을 빼준 수의 dp값(여기서는 dp[7], dp[4]) 에다가 제곱수의 dp 값인 1을 더해주면 된다. (dp[1] = 1, dp[4] = 1)
+# 즉, i에서 빼주기 위한 j의 범위는 1부터 int(i ** 0.5)까지의 수이고, i에서 제곱수들을 빼주는 식은 dp[i-(j ** 2)]이다.  (여기서 i가 8이므로 int(i ** 0.5)는 2가 되니까 j의 범위는 1부터 2)
+
 from math import sqrt
-from itertools import combinations_with_replacement
 n = int(input())
-square_nums = [i*i for i in range(1, int(sqrt(n))+1)] # 제곱수들 리스트
-square_nums_sum = [sum(k) for k in combinations_with_replacement(square_nums, 2)] # 제곱수 2개 뽑은 합 리스트
-
-def answer(n):
-    if n in square_nums: # 제곱수이면
-        return 1
-    elif n in square_nums_sum: # 제곱수 2개 더해서 만들 수 있는 수이면
-        return 2
-    else:
-        for num in square_nums: # 제곱수 중에
-            if n - num in square_nums_sum: # n에서 제곱수를 뺀 수가 제곱수 두개를 더해서 만들 수 있는 수면
-                return 3
-    return 4
-
-print(answer(n))
+dp = [0, 1]
+for i in range(2, n+1):
+    min_value = 4
+    for j in range(1, int(sqrt(i))+1):
+        min_value = min(min_value, dp[i-(j**2)] + 1)
+    dp.append(min_value)
+print(dp[n])
