@@ -6,10 +6,12 @@ checked= [[False] * M for _ in range(N)]
 dr = [-1, 1, 0, 0]
 dc = [0, 0, -1, 1]
 ans = 0
+find_ans = False
 q = deque()
 for i in range(N):
     for j in range(M):
         if board[i][j] == 'I':
+            find_ans = True
             q.append((i, j))
             checked[i][j] = True
             while q:
@@ -22,6 +24,9 @@ for i in range(N):
                             checked[nr][nc] = True
                             if board[nr][nc] == 'P':
                                 ans += 1
+            break
+    if find_ans:
+        break
 if ans == 0:
     print('TT')
 else:
