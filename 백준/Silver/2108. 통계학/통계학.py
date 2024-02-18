@@ -1,33 +1,24 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-num_dict = {}
-new_num_list = []
-nums_list = []
-for i in range(N):
-    n = int(input())
-    nums_list.append(n)
-    if n in num_dict:
-        num_dict[n] += 1
-    else:
-        num_dict[n] = 1
-nums_list.sort()
-for key, value in num_dict.items():
-    new_num_list.append((key, value))
-new_num_list.sort(key=lambda x : x[0])
-new_num_list.sort(key=lambda x : x[1], reverse=True)
+num_list = [int(input()) for _ in range(N)]
+num_list.sort()
+print(round(sum(num_list)/len(num_list))) # 산술평균
+print(num_list[len(num_list)//2])# 중앙값
 
-first = int(round(sum(nums_list) / len(nums_list), 0)) # 산술평균
-second = nums_list[len(nums_list)//2] # 증가하는 순으로 했을 때 중앙값
-if len(nums_list) == 1:
-    third = new_num_list[0][0] # 최빈값
-else:
-    if new_num_list[0][1] == new_num_list[1][1]:
-        third = new_num_list[1][0]
+dict = {}
+for i in num_list:
+    if i in dict:
+        dict[i] +=1
     else:
-        third = new_num_list[0][0]
-fourth = max(nums_list) - min(nums_list) # 최대값 - 최소값
-print(first)
-print(second)
-print(third)
-print(fourth)
+        dict[i] = 1
+max_num = max(dict.values())
+max_dict = []
+for i in dict: # 이러면 i는 딕셔너리의 key 값들이 됨
+    if max_num == dict[i]:
+        max_dict.append(i)
+if len(max_dict) > 1:
+    print(max_dict[1])
+else:
+    print(max_dict[0])
+print(max(num_list) - min(num_list))
