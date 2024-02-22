@@ -1,29 +1,36 @@
-# 아이디어 : DFS를 활용하여 i점과 이어져있는(내 코드에서는 i보다 큰 값)들을 순회하며 방문 체크를 한다.
-#           추가로 현재의 나보다 큰값이라면 그 값의 기준에서는 현재의 값은 그 값보다 작은 값이기 때문에 그 값의 입장에서도 방문체크를 한다.
-#           DFS로 방문할 수 있는 모든 곳을 방문한 후 행 기준으로 모든 곳이 방문됐다면 정답을 기록한다.
-
-def bfs(now, idx):
-    for pre in arr[idx]:
-        if not v[now][pre]:
-            v[now][pre] = 1
-            v[pre][now] = 1
-            bfs(now,pre)
+from collections import defaultdict
+import sys
+input = sys.stdin.readline
 
 
-N, M = map(int,input().split())
-arr = [[] for _ in range(N+1)]
-
-for _ in range(M):
-    p, c = map(int,input().split())
-    arr[p].append(c)
-
-v = [[0] * (N+1) for _ in range(N+1)]
-
-for i in range(1,N+1):
-    v[i][i] = 1
-    bfs(i,i)
+def dfs(start, currNode, visited):
+    visited[currNode] = True
+    for nextNode in graph[currNode]:
+        if not visited[nextNode]:
+            height[start].add(nextNode)
+            height[nextNode].add(start)
+            dfs(start, nextNode,visited)
 
 
+# 각 학생별로 자신보다 키가 큰 사람, 작은 사람을 저장하는 딕셔너리
+height = defaultdict(set)
+answer = 0
+n, m = map(int, input().split())
 
-answer = sum([1 if sum(v[i]) == N else 0 for i in range(1,N+1)])
+# 키가 큰 사람에서 작은 방향으로 향하는 간선 그래프
+graph = [[] for _ in range(n+1)] 
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+
+# 자신을 시작점으로 깊이 우선 탐색
+# 시작점에서 출발하면서 거친 모든 노드는 시작점보다 키가 작다.
+for i in range(1, n+1):
+    visited = [False] * (n+1)
+    dfs(i, i, visited)
+
+# 자신보다 키가 큰 사람 + 작은 사람의 정보가 N-1명이면 가능
+for i in range(1, n+1):
+    if len(height[i]) == n-1:
+        answer += 1
 print(answer)
