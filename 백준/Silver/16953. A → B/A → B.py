@@ -1,20 +1,14 @@
-# import sys
-# input = sys.stdin.readline
-# BFS라니
-from collections import deque
 A, B = map(int, input().split())
-# graph = [-1] * (B+1) # 이렇게 배열 만들면 B가 10^9라서 메모리 초과 남. bfs 큐에서 연산 횟수 주고 받게 해야 됨.
-q = deque()
-q.append((A, 1))
-while q:
-    now, cnt = q.popleft()
-    if now == B:
-        print(cnt)
+ans = 1
+while B != A:
+    temp = B
+    if B % 10 == 1:
+        B //= 10
+    elif B % 2 == 0:
+        B //= 2
+    ans += 1
+    if temp == B: # 값의 변화가 없으면 무한루프에 빠진거니깐 출력하고 나오기
+        print(-1)
         break
-    if now * 2 <= B:
-        q.append((now*2, cnt+1))
-    n = int(str(now)+'1')
-    if n <= B:
-        q.append((n, cnt+1))
 else:
-    print(-1)
+    print(ans)
