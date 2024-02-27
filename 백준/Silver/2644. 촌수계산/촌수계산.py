@@ -1,5 +1,13 @@
-# BFS
-from collections import deque
+# DFS
+def dfs(n, cnt):
+    global ans
+    if n == second:
+        ans = cnt
+    visited[n] = True
+    for next in graph[n]:
+        if not visited[next]:
+            dfs(next, cnt+1)
+ans = -1
 N = int(input())
 first, second = map(int, input().split())
 M = int(input())
@@ -9,16 +17,5 @@ for _ in range(M):
     v1, v2 = map(int, input().split())
     graph[v1].append(v2)
     graph[v2].append(v1)
-q = deque()
-q.append((first, 0))
-visited[first] = True
-ans = -1
-while q:
-    now, cnt = q.popleft()
-    if now == second:
-        ans = cnt
-    for next in graph[now]:
-        if not visited[next]:
-            q.append((next, cnt + 1))
-            visited[next] = True
+dfs(first, 0)
 print(ans)
