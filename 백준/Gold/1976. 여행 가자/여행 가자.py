@@ -3,40 +3,31 @@ from collections import deque
 N = int(input())
 M = int(input())
 board = [list(map(int, input().split())) for _ in range(N)]
-graph = [set() for _ in range(N)]
 route = list(map(int, input().split()))
 
 
-def bfs(i, j):
+def bfs(start, end):
     visitied = [0] * N
     q = deque()
-    q.append(j)
-    graph[i].add(j)
-    visitied[j] = 1
+    q.append(start)
+    visitied[start] = 1
     while q:
         idx = q.popleft()
+        if idx == end:
+            return True
+
         for k in range(N):
             if board[idx][k] == 1 and visitied[k] == 0:
                 q.append(k)
-                graph[i].add(k)
                 visitied[k] = 1
+    # 다음 여행지로 못가는 경우
+    return False
 
-for i in range(N):
-    for j in range(N):
-        if i == j :
-            board[i][j] = 1
-        if board[i][j] == 1:
-           bfs(i, j)
-if N == 0:
-    possible = False
+ans = "YES"
+for i in range(M-1):
+    possible = bfs(route[i]-1, route[i+1]-1)
+    if not possible:
+        ans = "NO"
+        break
+print(ans)
 
-else:
-    possible = True
-    for i in range(0, len(route)-1):
-        if route[i+1]-1 not in graph[route[i]-1]:
-            possible = False
-            break
-if possible:
-    print("YES")
-else:
-    print("NO")
