@@ -1,15 +1,12 @@
-n = int(input())
-
-children = []
-for _ in range(n):
-    children.append(int(input()))
-
-# LIS
-dp = [0 for _ in range(n)]
-for i in range(n):
-    dp[i] = 1
-    for j in range(i+1):
-        if children[j] < children[i]:
+N = int(input())
+order = []
+for i in range(N):
+    n = int(input())
+    order.append(n)
+# dp[i] : order의 i번째수를 마지막으로 가장 긴 증가하는 수열의 길이
+dp = [1] * (N)
+for i in range(1, N):
+    for j in range(i):
+        if order[i] > order[j]:
             dp[i] = max(dp[i], dp[j] + 1)
-
-print(n - max(dp))
+print(N-max(dp))
