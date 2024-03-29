@@ -1,28 +1,27 @@
-# MST
-def find(a):
-    if parents[a] != a:
-        parents[a] = find(parents[a])
-    return parents[a]
-
-def union(a, b):
-    a = find(a)
-    b = find(b)
-    if a < b:
-        parents[b] = a
-    else:
-        parents[a] = b
-
+# prim
+from heapq import heappush, heappop
+import sys
+input = sys.stdin.readline
 V, E = map(int, input().split())
-edges = []
-parents = [i for i in range(V+1)]
+graph = [[] for _ in range(V+1)]
+visited = [0] * (V+1)
+ans = 0
+
 for i in range(E):
     a, b, c = map(int, input().split())
-    edges.append((c, a, b))
-edges.sort()
-ans = 0
-for edge in edges:
-    weight, a, b = edge
-    if find(a) != find(b):
-        union(a, b)
-        ans += weight
+    graph[a].append((c, b))
+    graph[b].append((c, a))
+
+q = [(0, 1)]
+
+def prim():
+    global ans
+    while q:
+        weight, node = heappop(q)
+        if visited[node] == 0:
+            visited[node] = 1
+            ans += weight
+            for next_weight, next_node in graph[node]:
+                heappush(q, (next_weight, next_node))
+prim()
 print(ans)
