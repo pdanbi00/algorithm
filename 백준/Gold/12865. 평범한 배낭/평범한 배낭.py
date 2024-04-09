@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 N, K = map(int, input().split())
 bags = []
 dp = [[0] * (K+1) for _ in range(N+1)] # 열은 0부터 K까지의 가방 무게를 의미. 행은 각 가방들을 의미
