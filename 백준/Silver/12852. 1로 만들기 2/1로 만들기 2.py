@@ -1,26 +1,27 @@
-from collections import deque
+# DP~~
 import sys
 input = sys.stdin.readline
 
 N = int(input())
-q = deque()
-q.append([N])
-ans = []
-while q:
-    a = q.popleft()
-    x = a[0]
+dp = [[0, []] for _ in range(1000001)]
+dp[1][0] = 0
+dp[1][1] = [1]
+dp[2][0] = 1
+dp[2][1] = [1, 2]
+dp[3][0] = 1
+dp[3][1] = [1, 3]
 
-    if x == 1:
-        ans = a
-        break
-
-    if x % 3 == 0:
-        q.append([x//3] + a)
-
-    if x % 2 == 0:
-        q.append([x//2] + a)
-
-    q.append([x - 1] + a)
-
-print(len(ans)-1)
-print(*ans[::-1])
+for i in range(4, N+1):
+    dp[i][0] = dp[i-1][0] + 1
+    dp[i][1] = dp[i-1][1] + [i]
+    if i % 2 == 0:
+        if dp[i][0] > dp[i//2][0] + 1:
+            dp[i][0] = dp[i//2][0] + 1
+            dp[i][1] = dp[i//2][1] + [i]
+    if i % 3 == 0:
+        if dp[i][0] > dp[i//3][0] + 1:
+            dp[i][0] = dp[i//3][0] + 1
+            dp[i][1] = dp[i//3][1] + [i]
+print(dp[N][0])
+dp[N][1].sort(reverse=True)
+print(*dp[N][1])
