@@ -31,19 +31,16 @@ time = 0
 while 1:
     visited = [[0] * M for _ in range(N)]
     air_bfs(0, 0)
-    time += 1
+    flag = False
     # 두 면 이상 공기에 닿으면 녹은거니깐 없애기
     for i in range(N):
         for j in range(M):
             if visited[i][j] >= 2:
                 board[i][j] = 0
-    # 공기 개수 세기
-    air_cnt = 0
-    for i in range(N):
-        for j in range(M):
-            if board[i][j] == 0:
-                air_cnt += 1
+                flag = True
 
-    if air_cnt == (N*M):
+    if flag:
+        time += 1
+    else:
         break
 print(time)
