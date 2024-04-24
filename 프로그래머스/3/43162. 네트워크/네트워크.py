@@ -1,25 +1,16 @@
 def solution(n, computers):
-    answer = 0
-    def find(a):
-        if parents[a] != a:
-            parents[a] = find(parents[a])
-        return parents[a]
+    def dfs(idx):
+        visited[idx] = True
+        for i in range(n):
+            if computers[idx][i] == 1 and visited[i] == False:
+                dfs(i)
+    answer = 0    
+    visited = [False] * n
     
-    def union(a, b):
-        a = find(a)
-        b = find(b)
-        if a > b:
-            parents[b] = a
-        else:
-            parents[a] = b
-            
-    parents = [i for i in range(n)]
     for i in range(n):
         for j in range(n):
-            if computers[i][j] == 1:
-                union(i, j)
-    for i in range(n):
-        find(i)
-    p = set(parents)
+            if computers[i][j] == 1 and not visited[i]:
+                dfs(i)
+                answer += 1
     
-    return len(p)
+    return answer
