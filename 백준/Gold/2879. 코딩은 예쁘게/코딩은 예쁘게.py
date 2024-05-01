@@ -6,20 +6,16 @@ right_taps = list(map(int, input().split()))
 
 dif_taps = [0] * N
 for i in range(N):
-    dif_taps[i] = now_taps[i] - right_taps[i]
-ans = 0
+    dif_taps[i] = right_taps[i] - now_taps[i]
 
-for i in range(N):
-    if dif_taps[i] == 0:
-        continue
-    if dif_taps[i] > 0:
-        x = 1
+#  dp[i] : 1번부터 i번까지의 최소 인덴트 횟수수
+dp = [0] * N
+dp[0] = abs(dif_taps[0])
+
+for i in range(1, N):
+    # 현재 인덴트 차이와 다음 칸의 인덴트 차이의 부호가 같을 경우
+    if dif_taps[i] * dif_taps[i-1] >= 0:
+        dp[i] = dp[i-1] + max(0, abs(dif_taps[i]) - abs(dif_taps[i-1]))
     else:
-        x = -1
-    while dif_taps[i] != 0:
-        ans += 1
-        for j in range(i, N):
-            if dif_taps[j] * x <= 0:
-                break
-            dif_taps[j] -= x
-print(ans)
+        dp[i] = dp[i-1] + abs(dif_taps[i])
+print(dp[N-1])
