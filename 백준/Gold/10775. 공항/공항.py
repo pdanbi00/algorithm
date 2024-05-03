@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 # 이게 Union find라니...
 # 현재 공항보다 작은 숫자의 공항 중에서 가장 오른쪽에 비어있는 칸을 루트로 union
 def find(a):
