@@ -8,9 +8,8 @@ heapq.heapify(cards)
 for i in range(M):
     a = heapq.heappop(cards)
     b = heapq.heappop(cards)
-    a, b = a+b, a+b
-    heapq.heappush(cards, a)
-    heapq.heappush(cards, b)
-for i in range(len(cards)):
-    ans += heapq.heappop(cards)
-print(ans)
+
+    heapq.heappush(cards, a+b)
+    heapq.heappush(cards, a+b)
+
+print(sum(cards))
