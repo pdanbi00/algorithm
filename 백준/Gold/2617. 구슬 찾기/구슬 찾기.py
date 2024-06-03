@@ -29,6 +29,7 @@ for _ in range(M):
 for i in range(1, N+1):
     tmp1 = bfs(i, graph1)
     tmp2 = bfs(i, graph2)
+    # i보다 무거운게 반 이상이거나 i보다 가벼운게 반 이상이면 중간 값이 될 수 없음.
     if tmp1 >= (N // 2) + 1 or tmp2 >= (N // 2) + 1:
         ans += 1
 print(ans)
