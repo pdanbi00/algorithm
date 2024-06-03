@@ -1,4 +1,4 @@
-# 가벼운거 -> 무거운거 bfs 돌면서
+# 가벼운거 -> 무거운거, 무거운거 -> 가벼운거 bfs 돌면서
 # 모든 구슬에서 다 돌면서 개수 확인
 from collections import deque
 N, M = map(int, input().split())
