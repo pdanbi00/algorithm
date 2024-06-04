@@ -9,7 +9,7 @@ for _ in range(N):
 nums.sort()
 start = 0
 end = 0
-ans = nums[-1] * 2
+ans = nums[-1] - nums[0]
 
 while start <= end and end < N:
     if nums[end] - nums[start] >= M:
