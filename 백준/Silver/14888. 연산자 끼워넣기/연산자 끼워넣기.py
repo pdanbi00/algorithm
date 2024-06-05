@@ -1,43 +1,42 @@
-from itertools import permutations
 N = int(input())
 nums = list(map(int, input().split()))
-buho_cnt = list(map(int, input().split()))
-buho_list = ['+', '-', '*', '/']
-buho = []
-
-for i in range(4):
-    for j in range(buho_cnt[i]):
-        buho.append(buho_list[i])
+operators = list(map(int, input().split()))
 
 min_ans = 1000000000
 max_ans = -1000000000
 
-cases = set()
-
-for p in permutations(buho, N-1):
-    cases.add(p)
-
-def solve():
+def dfs(n, temp):
     global min_ans, max_ans
-    for case in cases:
-        total = nums[0]
-        for i in range(1, N):
-            if case[i-1] == '+':
-                total += nums[i]
-            elif case[i-1] == '-':
-                total -= nums[i]
-            elif case[i-1] == '*':
-                total *= nums[i]
-            elif case[i-1] == '/':
-                if total < 0 and nums[i] > 0:
-                    total = -(abs(total) // nums[i])
-                else:
-                    total = total // nums[i]
-        if total > max_ans:
-            max_ans = total
-        if total < min_ans:
-            min_ans = total
 
-solve()
+    # 종료조건
+    if n == N-1:
+        min_ans = min(min_ans, temp)
+        max_ans = max(max_ans, temp)
+        return
+
+    if operators[0] != 0: # 덧셈
+        operators[0] -= 1
+        dfs(n+1, temp + nums[n+1])
+        operators[0] += 1
+
+    if operators[1] != 0: # 뺄셈
+        operators[1] -= 1
+        dfs(n+1, temp - nums[n+1])
+        operators[1] += 1
+
+    if operators[2] != 0: # 곱셈
+        operators[2] -= 1
+        dfs(n+1, temp * nums[n+1])
+        operators[2] += 1
+
+    if operators[3] != 0: # 나눗셈
+        operators[3] -= 1
+        if temp < 0 and nums[n+1] > 0:
+            dfs(n+1, -(abs(temp) // nums[n+1]))
+        else:
+            dfs(n+1, temp // nums[n+1])
+        operators[3] += 1
+
+dfs(0, nums[0])
 print(max_ans)
 print(min_ans)
