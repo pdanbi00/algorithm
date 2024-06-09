@@ -12,50 +12,31 @@ dc = [0, 0, -1, 1]
 # 자리 정하기
 for _ in range(N**2):
     s, *likes = map(int, input().split())
+    able_position = [] # 현재 학생이 앉을 수 있는 자리 후보
     likes_info[s] = likes
-    like_info = {}
-    sort_arr = []
-    max_like_cnt = 0
+
     # 모든 칸을 살펴보면서 각 칸의 상하좌우에 좋아하는 학생 번호가 있는지 확인
     for i in range(N):
         for j in range(N):
             if board[i][j] == 0:
-                ci, cj = i, j
-                cnt = 0
+                like = 0 # board[i][j] 주변에 좋아하는 친구 수
+                blank = 0 # board[i][j] 주변 빈자리 수
                 for d in range(4):
                     nr, nc = i + dr[d], j + dc[d]
                     if 0 <= nr < N and 0 <= nc < N:
-                        if board[nr][nc] in likes: # 근처에 좋아하는 학생이 있으면
-                            cnt += 1
-                            if (i, j) not in like_info:
-                                like_info[(i, j)] = [1, 0]
-                            else:
-                                like_info[(i, j)][0] += 1
+                        # 근처에 좋아하는 학생이 있으면
+                        if board[nr][nc] in likes:
+                            like += 1
+                        # 근처에 빈자리가 있으면
                         if board[nr][nc] == 0:
-                            if (i, j) not in like_info:
-                                like_info[(i, j)] = [0, 1]
-                            else:
-                                like_info[(i, j)][1] += 1
-                if cnt > max_like_cnt:
-                    max_like_cnt = cnt
-    if len(like_info) == 0:
-        find_zero = False
-        for ni in range(N):
-            for nj in range(N):
-                if board[ni][nj] == 0:
-                    board[ni][nj] = s
-                    find_zero = True
-                    break
-            if find_zero:
-                break
+                            blank += 1
+                able_position.append([like, blank, i, j])
+    # 현재 학생이 앉을 수 있는 자리를 like, blank는 내림차순, i, j는 오름차순으로 정렬
+    able_position.sort(key=lambda x : (x[0], x[1], -x[2], -x[3]), reverse=True)
 
-    elif len(like_info) > 0:
-        for k, v in like_info.items():
-            if v[0] == max_like_cnt:
-                sort_arr.append((k, v[1]))
-        sort_arr.sort(key=lambda x : (x[1], -x[0][0], -x[0][1]), reverse=True)
-        board[sort_arr[0][0][0]][sort_arr[0][0][1]] = s
-    # print(board)
+    # 조건 우선순위가 제일 높은 위치에 학생 자리 지정
+    board[able_position[0][2]][able_position[0][3]] = s
+
 ans = 0
 # 만족도 구하기
 for i in range(N):
