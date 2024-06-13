@@ -1,22 +1,20 @@
 N, S = map(int, input().split())
 nums = list(map(int, input().split()))
 
-for i in range(1, N):
-    nums[i] += nums[i-1]
-
 ans = 100000
 start = 0
 end = 0
+tmp = 0
 
-while end < N:
-    if start == 0:
-        tmp = nums[end]
-    else:
-        tmp = nums[end] - nums[start-1]
+while True:
     if tmp >= S:
-        ans = min(ans, end-start+1)
+        ans = min(ans, end-start)
+        tmp -= nums[start]
         start += 1
+    elif end == N:
+        break
     else:
+        tmp += nums[end]
         end += 1
 if ans == 100000:
     print(0)
