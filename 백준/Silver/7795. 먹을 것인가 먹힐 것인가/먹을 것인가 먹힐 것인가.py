@@ -4,17 +4,17 @@ for _ in range(T):
     N, M = map(int, input().split())
     A = list(map(int, input().split()))
     B = list(map(int, input().split()))
-    A.sort(reverse=True)
+    A.sort()
     B.sort()
+    start = 0
     ans = 0
+
     for i in range(N):
-        cnt = 0
-        if A[i] <= B[0]:
-            break
-        for j in range(M):
-            if A[i] > B[j]:
-                cnt += 1
-            else:
+        while True:
+            if start == M or A[i] <= B[start]:
+                ans += start
                 break
-        ans += cnt
+            else:
+                start += 1
+
     print(ans)
