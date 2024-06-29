@@ -1,10 +1,20 @@
 P = int(input())
 for _ in range(P):
-    arr = list(map(int, input().split()))
+    T, *nums = map(int, input().split())
     ans = 0
-    for i in range(1, len(arr)-1):
-        for j in range(i+1, len(arr)):
-            if arr[i] > arr[j]:
-                arr[i], arr[j] = arr[j], arr[i]
-                ans += 1
-    print(arr[0], ans)
+    arr = []
+    for i in range(len(nums)):
+        if i == 0:
+            arr.append(nums[i])
+            continue
+        now = nums[i]
+        if now > max(arr):
+            arr.append(now)
+            continue
+
+        for j in range(len(arr)):
+            if arr[j] > now:
+                ans += len(arr) - j
+                arr.insert(j, now)
+                break
+    print(T, ans)
