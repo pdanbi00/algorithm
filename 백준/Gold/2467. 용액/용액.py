@@ -1,22 +1,30 @@
 N = int(input())
 water = list(map(int, input().split()))
 
-# 투포인터
-start = 0
-end = N-1
+# 이진탐색
+# 용액의 i번째 값과 i + 1부터 n까지의 값의 합을 이진탐색으로 구해서 0이랑 가장 가까운 쌍을 찾음
+ans = abs(water[0] + water[N-1])
+ans_left = 0
+ans_right = N-1
 
-min_ans = abs(water[0] + water[N-1]) # abs(tmp)로 업데이트 할거야
-ans = [water[start], water[end]]
-while start < end: # 왼쪽 값이랑 오른쪽 값이 같을 수는 없음
-    tmp = water[start] + water[end]
-    if abs(tmp) < min_ans:
-        min_ans = abs(tmp)
-        ans = [water[start], water[end]]
-        if min_ans == 0:
-            break
-    if tmp < 0: # 0보다 작으면 값을 키워야하기 때문에 왼쪽 포인터 증가시키기
-        start += 1
-    else:
-        end -= 1
+for i in range(N-1):
+    current = water[i]
+    start = i+1
+    end = N-1
 
-print(*ans)
+    while start <= end:
+        mid = (start + end) // 2
+        tmp = current + water[mid]
+
+        if abs(tmp) < ans:
+            ans = abs(tmp)
+            ans_left = i
+            ans_right = mid
+
+            if tmp == 0:
+                break
+        if tmp < 0:
+            start = mid + 1
+        else:
+            end = mid - 1
+print(water[ans_left], water[ans_right])
