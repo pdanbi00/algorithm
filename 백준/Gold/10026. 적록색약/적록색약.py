@@ -1,56 +1,65 @@
 from collections import deque
 
-
-# R, G, B의 구역을 구하기
-def bfs(sx, sy, color):
-    q = deque()
-    q.append((sx, sy))
-    used[sx][sy] = 1
-
-    while q:
-        x, y = q.popleft()
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < N and 0 <= ny < N and not used[nx][ny] and data[nx][ny] == color:
-                used[nx][ny] = 1
-                q.append((nx, ny))
-
-
-# R=G, B의 구역을 구하기
-def bfs2(sx, sy, color):
-    q = deque()
-    q.append((sx, sy))
-    used2[sx][sy] = 1
-
-    while q:
-        x, y = q.popleft()
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < N and 0 <= ny < N and not used2[nx][ny]:
-                if color == 'R' or color == 'G':
-                    if data[nx][ny] == 'R' or data[nx][ny] == 'G':
-                        used2[nx][ny] = 1
-                        q.append((nx, ny))
-                elif color == 'B' and data[nx][ny] == 'B':
-                    used2[nx][ny] = 1
-                    q.append((nx, ny))
-
-
 N = int(input())
+board = [list(input()) for _ in range(N)]
 
-data = [list(input()) for _ in range(N)]
+dr = [-1, 1,  0, 0]
+dc = [0, 0, -1, 1]
 
-ans1 = 0
-ans2 = 0
-used = [[0] * N for _ in range(N)]
-used2 = [[0] * N for _ in range(N)]
+normal_cnt = 0
+special_cnt = 0
+
+def normal_bfs(r, c, color):
+    q = deque()
+    q.append((r, c))
+    visited[r][c] = 1
+    while q:
+        r, c = q.popleft()
+        for k in range(4):
+            nr = r + dr[k]
+            nc = c + dc[k]
+            if 0 <= nr < N and 0 <= nc < N:
+                if visited[nr][nc] == 0 and board[nr][nc] == color:
+                    q.append((nr, nc))
+                    visited[nr][nc] = 1
+
+
+def special_bfs(r, c, color):
+    q = deque()
+    q.append((r, c))
+    visited[r][c] = 1
+    while q:
+        r, c = q.popleft()
+        for k in range(4):
+            nr = r + dr[k]
+            nc = c + dc[k]
+            if 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == 0:
+                if color == 'R' or color == 'G':
+                    if board[nr][nc] == 'R' or board[nr][nc] == 'G':
+                        q.append((nr, nc))
+                        visited[nr][nc] = 1
+                        
+                elif color == 'B':
+                    if board[nr][nc] == 'B':
+                        q.append((nr, nc))
+                        visited[nr][nc] = 1
+
+
+
+
+visited = [[0] * N for _ in range(N)]
 for i in range(N):
     for j in range(N):
-        if not used[i][j]:
-            bfs(i, j, data[i][j])
-            ans1 += 1
-        if not used2[i][j]:
-            bfs2(i, j, data[i][j])
-            ans2 += 1
+        if visited[i][j] == 0:
+            normal_cnt += 1
+            normal_bfs(i, j, board[i][j])
 
-print(ans1, ans2)
+
+visited = [[0] * N for _ in range(N)]
+for i in range(N):
+    for j in range(N):
+        if visited[i][j] == 0:
+            special_cnt += 1
+            special_bfs(i, j, board[i][j])
+
+print(normal_cnt, special_cnt)
