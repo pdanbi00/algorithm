@@ -1,6 +1,9 @@
+import sys
+input = sys.stdin.readline
+
 # 문자열을 정렬시키면 가장 긴 접두사를 갖고 있는 문자끼리 붙게 됨(바로 앞 문자열이랑 비교했을 때 가장 긴 접두사의 길이를 낼 수 있음 와우)
 N = int(input())
-words = [input() for _ in range(N)]
+words = [input().rstrip() for _ in range(N)]
 
 # 입력받은 문자열들을 인덱스랑 같이 사전 순으로 정렬
 sorted_words = sorted(list(enumerate(words)), key=lambda x : x[1])
