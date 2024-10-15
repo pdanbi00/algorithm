@@ -1,44 +1,45 @@
-# 스택...
-# 양쪽을 살펴봐야하기 때문에 하나는 처음부터 끝까지 진행.
-# 하나는 끝에서부터 처음까지 진행하면서 계산
 N = int(input())
 bildings = list(map(int, input().split()))
 
-total = [0] * N
+cnt = [0] * (N+1) # i번째 건물이 볼 수 있는 건물 수
+near = [[int(1e9), int(1e9)] for _ in range(N+1)] # 가장 가까운 건물 번호, 가장 가까운 건물 거리
 
-front = [[0] * 2 for _ in range(N)]
-# 건물의 왼쪽들 살펴보기
-stack = [(bildings[0], 0)]
-for i in range(1, N):
-    while stack and stack[-1][0] <= bildings[i]:
+# 앞에서부터 진행 : 왼쪽에서 볼 수 있는 건물
+stack = []
+for idx, v in enumerate(bildings, 1):
+    # stack pop 조건 : 데이터가 있고, 스택 제일 위 건물의 높이가 현재 건물의 높이와 같거나 작으면 더이상 안보여서 pop
+    while stack and stack[-1][1] <= v:
         stack.pop()
-    if stack:
-        front[i][0] = stack[-1][0]
-        front[i][1] = stack[-1][1]
-    total[i] += len(stack)
-    stack.append((bildings[i], i))
+    cnt[idx] += len(stack)
 
-back = [[0] * 2 for _ in range(N)]
-# 건물의 오른쪽들 살펴보기
-stack = [(bildings[-1], N-1)]
-for i in range(N-2, -1, -1):
-    while stack and stack[-1][0] <= bildings[i]:
+    if stack:
+        dist = abs(stack[-1][0] - idx) # 해당 건물 기준 가장 가까운 좌측 건물과의 거리
+        if dist < near[idx][1]:
+            near[idx][0] = stack[-1][0]
+            near[idx][1] = dist
+        elif dist == near[idx][1] and stack[-1][0] < near[idx][0]: #  거리는 같은데 건물번호가 더 작은 경우
+            near[idx][0] = stack[-1][0]
+    stack.append((idx, v))
+
+# 뒤에서부터 진행 : 오른쪽에서 볼 수 있는 건물
+stack = []
+for idx, v in reversed(list(enumerate(bildings, 1))):
+    # stack pop 조건 : 데이터가 있고, 스택 제일 위 건물의 높이가 현재 건물의 높이와 같거나 작으면 더이상 안보여서 pop
+    while stack and stack[-1][1] <= v:
         stack.pop()
-    if stack:
-        back[i][0] = stack[-1][0]
-        back[i][1] = stack[-1][1]
-    total[i] += len(stack)
-    stack.append((bildings[i], i))
+    cnt[idx] += len(stack)
 
-for i in range(N):
-    if front[i] != [0, 0] and back[i] != [0, 0]:
-        if i - front[i][1] <= back[i][1] - i:
-            print(total[i], front[i][1]+1)
-        else:
-            print(total[i], back[i][1]+1)
-    elif front[i] != [0, 0]:
-        print(total[i], front[i][1]+1)
-    elif back[i] != [0, 0]:
-        print(total[i], back[i][1]+1)
+    if stack:
+        dist = abs(stack[-1][0] - idx) # 해당 건물 기준 가장 가까운 좌측 건물과의 거리
+        if dist < near[idx][1]:
+            near[idx][0] = stack[-1][0]
+            near[idx][1] = dist
+        elif dist == near[idx][1] and stack[-1][0] < near[idx][0]: #  거리는 같은데 건물번호가 더 작은 경우
+            near[idx][0] = stack[-1][0]
+    stack.append((idx, v))
+# 최종 결과 출력
+for i in range(1, N+1):
+    if cnt[i] > 0:
+        print(cnt[i], near[i][0])
     else:
         print(0)
