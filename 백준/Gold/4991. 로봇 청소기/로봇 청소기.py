@@ -5,6 +5,9 @@
 # 최솟값 비교
 from collections import deque
 from itertools import permutations
+import sys
+
+input = sys.stdin.readline
 
 dr = [-1, 1, 0, 0]
 dc = [0, 0, -1, 1]
@@ -35,7 +38,7 @@ while True:
     robot_r = 0
     robot_c = 0
     for i in range(N):
-        arr = list(input().strip())
+        arr = list(''.join(map(str, input().rstrip())))
         for j in range(M):
             if arr[j] == 'o':
                 robot_r = i
