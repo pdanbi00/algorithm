@@ -1,17 +1,19 @@
-from itertools import permutations
-
 N, K = map(int, input().split())
 kit = list(map(int, input().split()))
-cnt = 0
-for perm in permutations(kit):
-    weight = 500
-    possible = True
+ans = 0
+visited = [0] * N
+def find(w, n):
+    global ans
+    if w < 500:
+        return
+    if n == N:
+        ans += 1
+        return
+    w -= K
     for i in range(N):
-        weight += perm[i]
-        weight -= K
-        if weight < 500:
-            possible = False
-            break
-    if possible:
-        cnt += 1
-print(cnt)
+        if not visited[i]:
+            visited[i] = 1
+            find(w+kit[i], n+1)
+            visited[i] = 0
+find(500, 0)
+print(ans)
