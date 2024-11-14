@@ -1,79 +1,43 @@
-from collections import deque
+import sys
+input = sys.stdin.readline
 
 N, M = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
+directions = [list(map(int, input().split())) for _ in range(M)]
 
 dr = [0, -1, -1, -1, 0, 1, 1, 1]
 dc = [-1, -1, 0, 1, 1, 1, 0, -1]
-
-dae_r = [-1, -1, 1, 1] # 단계 4에서 사용할 대각선들 방향
-dae_c = [-1, 1, -1, 1] # 단계 4에서 사용할 대각선들 방향
-
-clouds = deque()
-clouds.append((N-2, 0))
-clouds.append((N-2, 1))
-clouds.append((N-1, 0))
-clouds.append((N-1, 1))
-
-
-
-def rain(direction, distance):
-    # 이동했을 때 0보다 작게 되면 N-거리 만큼 더한 위치임
-    # 이동했을 때 N-1보다 크게되면 거리 더한 값 % (N-1) 위치임.
-    # for i in range(N):
-    #     print(board[i])
-    # print('---------')
-    new_clouds = deque()
+clouds = [(N-2, 0), (N-2, 1), (N-1, 0), (N-1, 1)]
+for direction in directions:
+    d, m = direction[0] - 1, direction[1] % N
+    not_cloud = set()
     while clouds:
-        # 구름 이동시키기
-        r, c = clouds.popleft()
-        nr = r + (dr[direction] * distance)
-        nc = c + (dc[direction] * distance)
-        if nr < 0 or nr > N-1:
-            nr = nr % N
-
-        if nc < 0 or nc > N - 1:
-            nc = nc % N
+        r, c = clouds.pop()
+        nr = (r + (dr[d] * m)) % N
+        nc = (c + (dc[d] * m)) % N
         board[nr][nc] += 1
-        new_clouds.append((nr, nc))
+        # 구름 있던 자리는 저장했다가 나중에 제외시키기
+        not_cloud.add((nr, nc))
 
-    # print(new_clouds)
-    # print('aaaaaaaaa')
-    # for i in range(N):
-    #     print(board[i])
-    # print('bbbb')
-    # 단계 4
-    for i in range(len(new_clouds)):
-        r, c = new_clouds[i]
-        tmp = 0
-        for k in range(4):
-            nr = r + dae_r[k]
-            nc = c + dae_c[k]
-            if 0 <= nr < N and 0 <= nc < N:
-                if board[nr][nc] > 0:
-                    tmp += 1
-        board[r][c] += tmp
-    # print('구름 대각선 물 있는 곳 개수 추가')
-    # for i in range(N):
-    #     print(board[i])
-    # print('cccccccccc')
+    # 물 뿌리기
+    for nr, nc in not_cloud:
+        count = 0
+        for k in [1, 3, 5, 7]:
+            nnr = nr + dr[k]
+            nnc = nc + dc[k]
+            if 0 <= nnr < N and 0 <= nnc < N:
+                if board[nnr][nnc] > 0:
+                    count += 1
+        board[nr][nc] += count
+
+    # 새로운 구름 만들기
     for i in range(N):
         for j in range(N):
-            if board[i][j] >= 2 and (i, j) not in new_clouds:
-                clouds.append((i, j))
-                board[i][j] -= 2
-
-
-for _ in range(M):
-    direction, distance = map(int, input().split())
-    rain(direction-1, distance)
-#
-# print('최종 상태')
-# for i in range(N):
-#     print(board[i])
-
+            if (i, j) not in not_cloud:
+                if board[i][j] >= 2:
+                    clouds.append((i, j))
+                    board[i][j] -= 2
 answer = 0
-
 for i in range(N):
     for j in range(N):
         answer += board[i][j]
