@@ -1,4 +1,3 @@
-from collections import deque
 from itertools import combinations
 
 N = int(input())
