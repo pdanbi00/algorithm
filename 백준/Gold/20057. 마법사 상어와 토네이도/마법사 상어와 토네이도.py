@@ -1,5 +1,3 @@
-import sys
-input = sys.stdin.readline
 # 모래 흩날리기 시작할 때 sand = 0으로 두고 흩날려진 만큼 더한 값을 원래 값에서 빼기
 # 그만큼을 알파에 넘기기
 
