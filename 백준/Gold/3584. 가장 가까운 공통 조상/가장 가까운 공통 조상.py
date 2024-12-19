@@ -1,7 +1,8 @@
 # 노드에 부모노드 저장해두기
 # 노드 a, b의 부모들을 거슬러 올라가면서 각각 배열에 저장
 # 부모들 담은 배열 뒤에서부터 탐색하면서 부모가 달라지는 지점 직전이 가장 가까운 공통 조상
-
+import sys
+input = sys.stdin.readline
 T = int(input())
 for _ in range(T):
     N = int(input())
