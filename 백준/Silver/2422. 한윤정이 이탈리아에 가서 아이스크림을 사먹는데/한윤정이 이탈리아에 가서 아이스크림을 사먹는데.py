@@ -1,22 +1,18 @@
-from itertools import combinations
 import sys
 input = sys.stdin.readline
-N, M = map(int, input().split())
-nums = [i for i in range(1, N+1)]
-eww = set()
-for _ in range(M):
-    a, b = map(int, input().split())
-    for i in range(1, N+1):
-        if i != a and i != b:
-            arr = [a, b, i]
-            arr.sort()
-            arr = tuple(arr)
-            eww.add(arr)
-tmp = 0
-answer = 0
-for com in combinations(nums, 3):
-    if com in eww:
-        tmp += 1
-    answer += 1
 
-print(answer - tmp)
+N, M = map(int, input().split())
+ice = [[False] * N for _ in range(N)]
+for i in range(M):
+    a, b = map(int, input().split())
+    ice[a-1][b-1] = True
+    ice[b-1][a-1] = True
+
+result = 0
+
+for i in range(N):
+    for j in range(i+1, N):
+        for k in range(j+1, N):
+            if not ice[i][j] and not ice[i][k] and not ice[j][k]:
+                result += 1
+print(result)
