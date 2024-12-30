@@ -1,61 +1,58 @@
-N, M = map(int, input().split())
-board = [list(input()) for _ in range(N)]
+import sys
+input = sys.stdin.readline
 
-# 각 *에서 이걸 중심으로 상하좌우 확인
-# 상하좌우 다 * 이면 중심으로 체크
-# 2칸씩, 3칸씩 더 확인해보기
-# 상하좌우 다 확인 되면 체크하기
-dr = [-1, 1, 0, 0]
-dc = [0, 0, -1, 1]
+N, M = map(int, input().split())
 
 answer = []
+board = [list(input()) for _ in range(N)]
 
-def check(r, c):
-    # r, c를 중심으로 상하좌우 확인
-    length = 1
-    while length <= (min(N, M) // 2):
-        possible = True
-        cnt = 0
-        for k in range(4):
-            nr = r + (dr[k] * length)
-            nc = c + (dc[k] * length)
-            if 0 <= nr < N and 0 <= nc < M:
-                if board[nr][nc] != '.':
-                    cnt += 1
-                else:
-                    possible = False
-                    break
-        if possible and cnt == 4:
-            if length == 1:
-                if board[r][c] == '*':
-                    board[r][c] = 0
-                elif board[r][c] != '.':
-                    board[r][c] += 1
-            for k in range(4):
-                nr = r + (dr[k] * length)
-                nc = c + (dc[k] * length)
-                if 0 <= nr < N and 0 <= nc < M:
-                    if board[nr][nc] == '*':
-                        board[nr][nc] = 0
-                    elif board[nr][nc] != '.':
-                        board[nr][nc] += 1
-            answer.append((r+1, c+1, length))
-            length += 1
-        else:
-            break
+# 사용한 별인지 체크하기 위한
+visited = [[0] * M for _ in range(N)]
 
-for i in range(N):
-    for j in range(M):
-        if board[i][j] != '.':
-            check(i, j)
-# print(board)
-ans = True
+# visited가 1이면 아직 사용안한 별
 for i in range(N):
     for j in range(M):
         if board[i][j] == '*':
-            ans = False
-            print(-1)
-            exit()
-print(len(answer))
-for i in range(len(answer)):
-    print(*answer[i])
+            visited[i][j] = 1
+
+def checkStar(i, j, size, visited):
+    ans = []
+    for s in range(1, size+1):
+        if board[i-s][j] == '*' and board[i+s][j] == '*' and board[i][j-s] == '*' and board[i][j+s] == '*':
+            ans = [i+1, j+1, s]
+            visited[i][j] = 0
+            visited[i - s][j] = 0
+            visited[i + s][j] = 0
+            visited[i][j - s] = 0
+            visited[i][j + s] = 0
+
+        else:
+            return ans
+    return ans
+
+for i in range(1, N-1):
+    for j in range(1, M-1):
+        if board[i][j] == '*':
+            size = min(i, j, N - 1 - i, M - 1 - j)
+            ans = checkStar(i, j, size, visited)
+
+            if ans:
+                answer.append(ans)
+
+possible = True
+
+for i in range(N):
+    for j in range(M):
+        if visited[i][j] == 1:
+            possible = False
+            break
+    if not possible:
+        break
+
+if possible:
+    print(len(answer))
+    for i in range(len(answer)):
+        print(*answer[i])
+
+else:
+    print(-1)
