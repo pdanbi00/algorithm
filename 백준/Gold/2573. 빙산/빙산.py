@@ -1,4 +1,6 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 N, M = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
 
@@ -11,8 +13,8 @@ def solve(i, j):
     # 빙하 찾기
     q = deque()
     q.append((i, j))
-    ice = [(i, j)]
-    melt = []
+    ice = [(i, j)] # 녹아야 할 빙하들 위치
+    melt = [] # 각 빙하별 녹아야하는 수
     visited[i][j] = True
     while q:
         r, c = q.popleft()
@@ -35,25 +37,22 @@ def solve(i, j):
         board[r][c] -= melt[idx]
         if board[r][c] < 0:
             board[r][c] = 0
-    # for i in range(N):
-    #     print(board[i])
-    # print('------------')
 
 
 while True:
-    cnt_bing = 0 # 빙하개수
+    cnt_bing = 0 # 빙하 덩어리 개수
     visited = [[False] * M for _ in range(N)]
     for i in range(N):
         for j in range(M):
             if board[i][j] > 0 and not visited[i][j]:
                 cnt_bing += 1
                 solve(i, j)
-                # print(time)
-    time += 1
-    # print(cnt_bing)
+
     if cnt_bing >= 2:
-        print(time-1)
+        print(time)
         exit()
     elif cnt_bing == 0:
         print(0)
         exit()
+    else:
+        time += 1
