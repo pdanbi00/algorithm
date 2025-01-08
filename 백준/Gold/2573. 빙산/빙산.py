@@ -1,56 +1,59 @@
-# bfs로 1씩 줄인다.
-# 그리고 나서 dfs로 전체 쪼개진거 확인
-# 이거 계속하면 시간 터질거같은디
 from collections import deque
-import sys
 N, M = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(N)]
-possible = False
-ans = 0
+board = [list(map(int, input().split())) for _ in range(N)]
+
 dr = [-1, 1, 0, 0]
 dc = [0, 0, -1, 1]
 
-def bfs(x, y):
+time = 0
+
+def solve(i, j):
+    # 빙하 찾기
     q = deque()
-    q.append((x, y))
-    visited[x][y] = 1 # 방문표시로 1로 처리하고 주변에 있는 얼음개수 만큼 +하니깐 메인에서 -1해줘야 됨.
+    q.append((i, j))
+    ice = [(i, j)]
+    melt = []
+    visited[i][j] = True
     while q:
         r, c = q.popleft()
-        for i in range(4):
-            nr = r + dr[i]
-            nc = c + dc[i]
+        cnt = 0 # 주변 얼음 개수
+        for k in range(4):
+            nr = r + dr[k]
+            nc = c + dc[k]
             if 0 <= nr < N and 0 <= nc < M:
-                if graph[nr][nc] == 0: # 주변 얼음 개수 체크
-                    visited[r][c] += 1
-                if visited[nr][nc] == 0 and graph[nr][nc] > 0: # 주변 빙하 체크
+                if not visited[nr][nc] and board[nr][nc] > 0:
                     q.append((nr, nc))
-                    visited[nr][nc] = 1
+                    ice.append((nr, nc))
+                    visited[nr][nc] = True
+                elif board[nr][nc] == 0:
+                    cnt += 1
+        melt.append(cnt)
+
+    # 빙하 녹이기
+    for idx in range(len(ice)):
+        r, c = ice[idx][0], ice[idx][1]
+        board[r][c] -= melt[idx]
+        if board[r][c] < 0:
+            board[r][c] = 0
+    # for i in range(N):
+    #     print(board[i])
+    # print('------------')
+
 
 while True:
-    # 빙하가 2개로 쪼개졌는지 확인
-    bing_cnt = 0
-    visited = [[0]*M for _ in range(N)]
+    cnt_bing = 0 # 빙하개수
+    visited = [[False] * M for _ in range(N)]
     for i in range(N):
         for j in range(M):
-            if graph[i][j] > 0 and visited[i][j] == 0:
-                bfs(i, j)
-                bing_cnt += 1
-    if bing_cnt == 0:
+            if board[i][j] > 0 and not visited[i][j]:
+                cnt_bing += 1
+                solve(i, j)
+                # print(time)
+    time += 1
+    # print(cnt_bing)
+    if cnt_bing >= 2:
+        print(time-1)
+        exit()
+    elif cnt_bing == 0:
         print(0)
-        break
-
-
-    if bing_cnt >= 2:
-        print(ans)
-        break
-    # 빙하가 2개이상으로 안 쪼개졌으면 1년 후로 계산해서 녹이기
-    else:
-        ans += 1
-        for i in range(N):
-            for j in range(M):
-                if visited[i][j] > 0:
-                    graph[i][j] -= (visited[i][j]-1)
-                    if graph[i][j] < 0:
-                        graph[i][j] = 0
-
-
+        exit()
