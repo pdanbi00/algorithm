@@ -1,4 +1,6 @@
 # dfs 돌면서 idx가 4이상일때 다시 원점으로 돌아오면 사이클이 있는 것
+import sys
+input = sys.stdin.readline
 N, M = map(int, input().split())
 board = [list(input()) for _ in range(N)]
 
