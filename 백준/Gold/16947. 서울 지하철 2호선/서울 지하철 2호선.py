@@ -1,63 +1,59 @@
-from collections import deque
 import sys
+from collections import deque
+sys.setrecursionlimit(10**9)
 input = sys.stdin.readline
-sys.setrecursionlimit(100000000)
+
+# dfs로 사이클 찾기
+def dfs(node, cnt):
+    # 이미 방문한 노드인데 거리 차이가 3이상이면 사이클
+    if check[node]:
+        if cnt - dist[node] >= 3:
+            return node
+        else: return -1
+    check[node] = 1
+    dist[node] = cnt
+    for next_node in adj_list[node]:
+        cycleStartNode = dfs(next_node, cnt+1)
+        # 시작 정점의 번호라면
+        if cycleStartNode != -1:
+            check[node] = 2
+            # 사이클에 해당하지 않으면 check에 사이클로 기록하지 않기 위해서
+            if node == cycleStartNode:
+                return -1
+            else:
+                return cycleStartNode
+    return -1
 
 N = int(input())
-graph = [[] for _ in range(N+1)]
+adj_list = [[] * (N+1) for _ in range(N+1)]
+# check[i] = 0 : 방문하지 않은 노드
+# check[i] = 1 : 방문한 노드
+# check[i] = 2 : 사이클에 속하는 노드
+check = [0] * (N+1)
+dist = [0] * (N+1)
+
 for _ in range(N):
     a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+    adj_list[a].append(b)
+    adj_list[b].append(a)
 
-# isCycle = [False] * (N+1) # 순환선에 해당하는 역인지 표시
-findCycle = False # 순환선 찾았는지 확인
-cycle = [] # 순환선에 해당하는 역들
+# 사이클 찾기
+dfs(1, 0)
 
-# 사이클 확인하기
-def dfs(node, start, tmp):
-    global findCycle
-    if findCycle:
-        return
-    for next_node in graph[node]:
-        if not visited[next_node]:
-            visited[next_node] = True
-            dfs(next_node, start, tmp+[next_node])
-            visited[next_node] = False
-        # 순환선일 경우
-        elif visited[next_node] and len(tmp) >= 3:
-            # 시작한 번호랑 같은 번호가 나오면
-            if next_node == start:
-                findCycle = True
-                # 순환선에 해당하는 역들 다 표시
-                for t in tmp:
-                    cycle.append(t)
-                return
-
-ans = [-1] * (N+1)
-
-def bfs():
-    q = deque()
-
-    for c in cycle:
-        q.append(c)
-        ans[c] = 0
-
-    while q:
-        node = q.popleft()
-        for next_node in graph[node]:
-            if ans[next_node] == -1:
-                q.append(next_node)
-                ans[next_node] = ans[node] + 1
-
+# bfs로 사이클과의 거리 계산
+q = deque()
 for i in range(1, N+1):
-    visited = [False] * (N+1)
-    visited[i] = True
-    dfs(i, i, [i])
-    if findCycle:
-        break
-    visited[i] = False
+    if check[i] == 2:
+        q.append(i)
+        dist[i] = 0
+    else:
+        dist[i] = -1
 
-bfs()
+while q:
+    x = q.popleft()
+    for y in adj_list[x]:
+        if dist[y] == -1:
+            q.append(y)
+            dist[y] = dist[x] + 1
 
-print(" ".join(map(str, ans[1:])))
+print(' '.join(map(str, dist[1:])))
