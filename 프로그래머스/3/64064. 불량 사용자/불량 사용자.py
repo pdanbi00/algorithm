@@ -1,23 +1,23 @@
 from itertools import permutations
-def check(users, banned_id):
-    for i in range(len(banned_id)):
-        if len(users[i]) != len(banned_id[i]):
-            return False
-        for j in range(len(users[i])):
-            if banned_id[i][j] == '*':
-                continue
-            if users[i][j] != banned_id[i][j]:
-                return False
-    return True
 
 def solution(user_id, banned_id):
-    answer_list = []
-    for users in permutations(user_id, len(banned_id)):
-        if not check(users, banned_id):
-            continue
-        else:
-            user = set(users)
-            if user not in answer_list:
-                answer_list.append(user)
-    
-    return len(answer_list)
+    answer = []
+    for perm in permutations(user_id, len(banned_id)):
+        find = True
+        for i in range(len(perm)):
+            if len(perm[i]) != len(banned_id[i]):
+                find = False
+                break
+            else:
+                for j in range(len(banned_id[i])):
+                    if banned_id[i][j] == '*':
+                        continue
+                    elif banned_id[i][j] != perm[i][j]:
+                        find = False
+                        break
+        if find:
+            # 중복 조심
+            if set(perm) not in answer:
+                answer.append(set(perm))
+        
+    return len(answer)
