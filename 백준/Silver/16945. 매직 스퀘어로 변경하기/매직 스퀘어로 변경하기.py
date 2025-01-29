@@ -1,50 +1,58 @@
-from itertools import permutations
+N = 3
 board = [list(map(int, input().split())) for _ in range(3)]
-
-arr = [i for i in range(1, 10)]
-
+new_arr = [[0] * 3 for _ in range(3)]
+visited = [False] * 10
 ans = 1e9
 
-for perm in permutations(arr, 9):
-    new_arr = [[0] * 3 for _ in range(3)]
-    idx = 0
+def cal():
+    total = 0
     for i in range(3):
         for j in range(3):
-            new_arr[i][j] = perm[idx]
-            idx += 1
-    possible = True
-    # 각 행 확인
+            total += abs(board[i][j] - new_arr[i][j])
+
+    return total
+
+def check():
     tmp = sum(new_arr[0])
-    for i in range(1, 3):
-        if tmp != sum(new_arr[i]):
-            possible = False
-            break
-    # 각 열 확인
-    if possible:
+
+    # 행 확인
+    for i in range(3):
+        tmp1 = sum(new_arr[i])
+
+        if tmp != tmp1:
+            return False
+
+    # 열 확인
+    for j in range(3):
+        tmp1 = 0
         for i in range(3):
-            total = 0
-            for j in range(3):
-                total += new_arr[j][i]
-            if total != tmp:
-                possible = False
-                break
+            tmp1 += new_arr[i][j]
+        if tmp != tmp1:
+            return False
 
     # 대각선 확인
-    if possible:
-        total1 = new_arr[0][0] + new_arr[1][1] + new_arr[2][2]
-        if total1 != tmp:
-            possible = False
+    tmp1 = new_arr[0][0] + new_arr[1][1] + new_arr[2][2]
+    if tmp != tmp1:
+        return False
+    tmp2 = new_arr[0][2] + new_arr[1][1] + new_arr[2][0]
+    if tmp != tmp2:
+        return False
 
-        if possible:
-            total2 = new_arr[0][2] + new_arr[1][1] + new_arr[2][0]
-            if total2 != tmp:
-                possible = False
+    return True
 
-    if possible:
-        total = 0
-        for i in range(3):
-            for j in range(3):
-                total += abs(board[i][j] - new_arr[i][j])
-        ans = min(total, ans)
+def dfs(depth):
+    global ans
+    if depth == 9:
+        if (check()):
+            ans = min(ans, cal())
+        return
 
+    for i in range(1, 10):
+        if not visited[i]:
+            visited[i] = True
+            new_arr[depth // 3][depth % 3] = i
+            dfs(depth + 1)
+            visited[i] = False
+
+dfs(0)
 print(ans)
