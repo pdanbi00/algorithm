@@ -1,7 +1,9 @@
+import sys
+input = sys.stdin.readline
 T = int(input())
 for _ in range(T):
     n = int(input())
-    phone = [input() for _ in range(n)]
+    phone = [input().rstrip() for _ in range(n)]
 
     phone.sort()
     answer = True
