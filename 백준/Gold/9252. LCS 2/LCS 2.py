@@ -1,6 +1,8 @@
 # DP
-word1 = [0] + list(input())
-word2 = [0] + list(input())
+import sys
+input = sys.stdin.readline
+word1 = [0] + list(input().rstrip())
+word2 = [0] + list(input().rstrip())
 
 # dp[i][j] : word1의 i번째 글자와 word2의 j번째 글자까지의 최장 공통 부분 수열
 
