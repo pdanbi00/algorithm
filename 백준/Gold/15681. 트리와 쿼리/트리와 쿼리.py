@@ -8,23 +8,17 @@ for _ in range(N-1):
     graph[v1].append(v2)
     graph[v2].append(v1)
 
-visited = [0] * (N+1)
-child = [[] for _ in range(N+1)]
-def makeTree(currentNode, parent):
-    for node in graph[currentNode]:
-        if node != parent:
-            child[currentNode].append(node)
-            makeTree(node, currentNode)
+visited = [-1] * (N+1)
 
-size = [0] * (N+1)
-def countSubtreeNodes(currentNode):
-    size[currentNode] = 1
-    for node in child[currentNode]:
-        countSubtreeNodes(node)
-        size[currentNode] += size[node]
+def dfs(node):
+    global visited
+    visited[node] = 1
+    for next_node in graph[node]:
+        if visited[next_node] == -1:
+            visited[node] += dfs(next_node)
+    return visited[node]
 
-makeTree(R, -1)
-countSubtreeNodes(R)
+dfs(R)
 for _ in range(Q):
     U = int(input())
-    print(size[U])
+    print(visited[U])
