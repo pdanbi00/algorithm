@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 n = int(input())
 m = int(input())
 graph = [[1e9] * (n+1) for _ in range(n+1)]
