@@ -8,16 +8,10 @@ def find(a):
 def union(a, b):
     a = find(a)
     b = find(b)
-    if a > b:
+    if a != b:
         parents[b] = a
         count[a] += count[b]
-        print(count[a])
-    elif a < b:
-        parents[a] = b
-        count[b] += count[a]
-        print(count[b])
-    else:
-        print(count[a])
+    print(count[a])
 
 T = int(input())
 for _ in range(T):
