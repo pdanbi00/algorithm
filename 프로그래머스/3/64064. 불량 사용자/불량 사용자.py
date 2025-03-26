@@ -2,22 +2,23 @@ from itertools import permutations
 
 def solution(user_id, banned_id):
     answer = []
-    for perm in permutations(user_id, len(banned_id)):
-        find = True
-        for i in range(len(perm)):
+    N = len(banned_id)
+    for perm in permutations(user_id, N):
+        possible = True
+        for i in range(N):
             if len(perm[i]) != len(banned_id[i]):
-                find = False
+                possible = False
                 break
             else:
                 for j in range(len(banned_id[i])):
                     if banned_id[i][j] == '*':
                         continue
-                    elif banned_id[i][j] != perm[i][j]:
-                        find = False
+                    elif perm[i][j] != banned_id[i][j]:
+                        possible = False
                         break
-        if find:
-            # 중복 조심
+                if not possible:
+                    break
+        if possible:
             if set(perm) not in answer:
                 answer.append(set(perm))
-        
     return len(answer)
