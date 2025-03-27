@@ -1,33 +1,36 @@
 # 다익스트라
 from heapq import heappush, heappop
-
 import sys
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
 graph = [[] for _ in range(N+1)]
 for _ in range(M):
-    a, b, cost = map(int, input().split())
-    graph[a].append((b, cost))
-    graph[b].append((a, cost))
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
+    graph[b].append((a, c))
 
-costs = [1e9] * (N+1)
-heap = []
+# 1 -> N까지 가는 최소 비용
+dist = [1e9] * (N+1)
 
-start = 1
-end = N
 
-costs[start] = 0
-heappush(heap, [0, start])
+def dijkstra(n):
+    heap = []
+    dist[n] = 0
 
-while heap:
-    cur_cost, cur_v = heappop(heap)
+    heappush(heap, [0, n])
 
-    if costs[cur_v] >= cur_cost:
+    while heap:
+        cur_cost, cur_v = heappop(heap)
+
+        if cur_cost > dist[cur_v]:
+            continue
+
         for next_v, next_cost in graph[cur_v]:
             sum_cost = cur_cost + next_cost
-            if sum_cost < costs[next_v]:
-                costs[next_v] = sum_cost
-                heappush(heap, [costs[next_v], next_v])
+            if sum_cost < dist[next_v]:
+                dist[next_v] = sum_cost
+                heappush(heap, [dist[next_v], next_v])
+dijkstra(1)
+print(dist[N])
 
-print(costs[end])
