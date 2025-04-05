@@ -1,6 +1,7 @@
 # 제일 앞에 있는 수가 루트 노드, 뒤에 있는 배열에서 루트보다 작은 수까지가 왼쪽 배열, 나머지는 오른쪽 배열
 import sys
 sys.setrecursionlimit(10**9)
+input = sys.stdin.readline
 
 arr = []
 
