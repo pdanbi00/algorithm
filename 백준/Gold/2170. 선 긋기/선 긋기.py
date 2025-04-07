@@ -6,19 +6,22 @@ lines = []
 for _ in range(N):
     a, b = map(int, input().split())
     lines.append((a, b))
-lines.sort(key=lambda x : (-x[1], x[0]))
+
+lines.sort()
 
 ans = 0
 
-start, end = 1000000000, 1000000000
+start, end = lines[0]
 
-for i in range(N):
+for i in range(1, N):
     a, b = lines[i]
-    if b < start:
-        ans += b - a
+    # 겹치는 경우
+    if a <= end:
+        end = max(end, b)
+    # 아예 안 겹치는 경우
+    else:
+        ans += end - start
         start, end = a, b
-    elif start <= b <= end and a < start:
-        ans += start - a
-        start = a
 
+ans += end - start
 print(ans)
