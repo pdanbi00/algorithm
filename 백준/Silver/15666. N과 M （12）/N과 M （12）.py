@@ -1,19 +1,16 @@
-from itertools import product
-
 N, M = map(int, input().split())
-nums = list(map(int, input().split()))
-nums.sort()
-ans = set()
-for pro in product(nums, repeat=M):
-    possible = True
-    for i in range(M-1):
-        if pro[i] > pro[i+1]:
-            possible = False
-            break
-    if possible:
-        ans.add(pro)
+nums = sorted(set(list(map(int, input().split()))))
 
-ans = list(ans)
-ans.sort()
-for a in ans:
-    print(*a)
+seq = []
+p = []
+def solve(idx, depth):
+    if depth == M:
+        print(" ".join(map(str, seq)))
+        return
+
+    for i in range(idx, len(nums)):
+        seq.append(nums[i])
+        solve(i, depth+1)
+        seq.pop()
+
+solve(0, 0)
