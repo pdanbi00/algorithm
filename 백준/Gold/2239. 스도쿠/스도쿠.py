@@ -2,13 +2,11 @@ board = []
 empty = []
 
 for i in range(9):
-    arr = list(input())
-    new_arr = []
+    arr = list(map(int, input()))
     for j in range(9):
-        new_arr.append(int(arr[j]))
-        if arr[j] == '0':
+        if arr[j] == 0:
             empty.append((i, j))
-    board.append(new_arr)
+    board.append(arr)
 
 def func(idx):
     if idx == len(empty):
