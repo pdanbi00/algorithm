@@ -3,13 +3,9 @@ input = sys.stdin.readline
 
 while True:
     try:
-        X = int(input())
-        X *= 10000000
+        X = int(input()) * 10000000
         n = int(input())
-        lego = []
-        for _ in range(n):
-            a = int(input())
-            lego.append(a)
+        lego = [int(input()) for _ in range(n)]
         lego.sort()
 
         start = 0
