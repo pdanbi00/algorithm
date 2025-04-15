@@ -1,4 +1,7 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
+
 N, M, K = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
 dice = [[0, 2, 0], [4, 1, 3], [0, 5, 0], [0, 6, 0]] # 가장 마지막 요소가 바닥에 닿는 면
@@ -54,7 +57,7 @@ while K > 0:
         new_dice = [[0, dice[1][1], 0], [dice[1][0], dice[2][1], dice[1][2]], dice[3], dice[0]]
 
     dice = new_dice
-    
+
     # 2. bfs해서 점수(board[r][c] * cnt) 구하기. 그리고 ans에 추가
     tmp = bfs(r, c, board[r][c])
     ans += tmp * board[r][c]
