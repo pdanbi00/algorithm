@@ -33,6 +33,11 @@ def bfs(i, j, num):
 
     return cnt
 
+cnt_table = [[0] * M for _ in range(N)]
+for i in range(N):
+    for j in range(M):
+        cnt_table[i][j] = bfs(i, j, board[i][j])
+
 while K > 0:
     # 1. 이동방향으로 굴러가기. 만약에 마지막 칸일 경우 방향 = (방향 + 2) % 2 해서 그 방향으로 굴리기
     n_r, n_c = r + dr[d], c + dc[d]
@@ -59,8 +64,7 @@ while K > 0:
     dice = new_dice
 
     # 2. bfs해서 점수(board[r][c] * cnt) 구하기. 그리고 ans에 추가
-    tmp = bfs(r, c, board[r][c])
-    ans += tmp * board[r][c]
+    ans += cnt_table[r][c] * board[r][c]
 
     # 3. 이동방향 결정하기 board[r][c]와 주사위 아랫면 크기 비교
     if dice[-1][1] > board[r][c]:
