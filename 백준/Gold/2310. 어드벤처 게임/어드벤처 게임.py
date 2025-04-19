@@ -1,31 +1,31 @@
-def dfs(idx, r_num, money):
+def dfs(r_num, money):
     global ans
 
     if r_num == N-1:
         ans = True
         return
 
-    if idx == N:
+    if ans:
         return
 
     for next_room in board[r_num]:
         if visited[next_room] == False:
             if room[next_room][0] == 'E':
                 visited[next_room] = True
-                dfs(idx+1, next_room, money)
+                dfs(next_room, money)
                 visited[next_room] = False
 
             elif room[next_room][0] == 'L':
                 if money < room[next_room][1]:
                     money = room[next_room][1]
                 visited[next_room] = True
-                dfs(idx+1, next_room, money)
+                dfs(next_room, money)
                 visited[next_room] = False
 
             elif room[next_room][0] == 'T':
                 if money - room[next_room][1] >= 0:
                     visited[next_room] = True
-                    dfs(idx+1, next_room, money - room[next_room][1])
+                    dfs(next_room, money - room[next_room][1])
                     visited[next_room] = False
 
 while True:
@@ -45,9 +45,9 @@ while True:
     visited = [False] * N
     visited[0] = True
     if room[0][0] == 'E':
-        dfs(0, 0, 0)
+        dfs(0, 0)
     elif room[0][0] == 'L':
-        dfs(0, 0, room[0][1])
+        dfs(0, room[0][1])
 
     if ans:
         print('Yes')
