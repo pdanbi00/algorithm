@@ -1,50 +1,52 @@
-from itertools import combinations
 from collections import deque
-
-board = [list(input()) for _ in range(5)]
 
 dr = [-1, 1, 0, 0]
 dc = [0, 0, -1, 1]
-position = []
-for i in range(5):
-    for j in range(5):
-        position.append((i, j))
 
-answer = 0
-
-def checkDasom(arr):
-    cnt = 0
-    for r, c in arr:
-        if board[r][c] == 'S':
-            cnt += 1
-    if cnt >= 4:
-        return True
-    else:
-        return False
-
-def checkAdjacent(arr):
-    visited = [False] * 7
+def bfs(arr):
+    visited = [[1] * 5 for _ in range(5)]
+    for i in arr:
+        visited[i[0]][i[1]] = 0
     q = deque()
     q.append(arr[0])
-    visited[0] = True
+    visited[arr[0][0]][arr[0][1]] = 1
+    check = 1
     while q:
         r, c = q.popleft()
         for k in range(4):
             nr = r + dr[k]
             nc = c + dc[k]
-            if (nr, nc) in arr:
-                n_idx = arr.index((nr, nc))
-                if not visited[n_idx]:
+            if 0 <= nr < 5 and 0 <= nc < 5:
+                if visited[nr][nc] == 0:
+                    visited[nr][nc] = 1
+                    check += 1
                     q.append((nr, nc))
-                    visited[n_idx] = True
-    if False in visited:
+    if check != 7:
         return False
-    else:
-        return True
+    return True
 
-for comb in combinations(position, 7):
-    if checkDasom(comb):
-        if checkAdjacent(comb):
-            answer += 1
+def dfs(depth, start, count):
+    global result
+    # 임도연 파가 4명 이상이면 중단
+    if count >= 4:
+        return
+    if depth == 7:
+        if bfs(A):
+            result += 1
+        return
 
-print(answer)
+    for i in range(start, 25):
+        r = i // 5
+        c = i % 5
+        A.append((r, c))
+        if board[r][c] == 'Y':
+            dfs(depth+1, i+1, count + 1)
+        else:
+            dfs(depth+1, i+1, count)
+        A.pop()
+
+board = [list(input()) for _ in range(5)]
+A = []
+result = 0
+dfs(0, 0, 0)
+print(result)
