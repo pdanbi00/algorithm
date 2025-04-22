@@ -27,6 +27,7 @@ for i in range(N):
         if target in answer:
             answer[num] += 1
             answer[target] -= 1
-
+            
+# dictionary 자료구조가 파이썬 3.6 이상에선 입력받은 순서를 기억한다고 함. 따라서 이 방식으로도 순서가 꼬이지 않음.
 for k, v in answer.items():
     print(v, end=" ")
