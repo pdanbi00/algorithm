@@ -1,7 +1,8 @@
 # DP
 # 왼쪽, 오른쪽, 아래쪽으로만 이동 가능
 # -> 위에서 오는 경우, 왼쪽에서 오는 경우 / 위쪽에서 오는 경우, 오른쪽에서 오는 경우 비교해서 가장 큰 값으로 갱신
-
+import sys
+input = sys.stdin.readline
 N, M = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
 
