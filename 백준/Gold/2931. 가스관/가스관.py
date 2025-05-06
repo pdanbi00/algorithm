@@ -1,126 +1,101 @@
+# 가스관이 끊어진 지점을 먼저 찾고, 거기에 모든 가스관을 다 끼워보고 M에서 Z까지 갈 수 있는지 확인
 from collections import deque
+
+# 북 동 남 서
+dr = [-1, 0, 1, 0]
+dc = [0, 1, 0, -1]
+
+dirDict = {}
+dirDict['|'] = {0 : 0, 2 : 2}
+dirDict['-'] = {1 : 1, 3 : 3}
+dirDict['+'] = {0 : 0, 2 : 2, 1 : 1, 3 : 3}
+dirDict['1'] = {3 : 2, 0 : 1}
+dirDict['2'] = {2 : 1, 3 : 0}
+dirDict['3'] = {1 : 0, 2 : 3}
+dirDict['4'] = {1 : 2, 0 : 3}
 
 R, C = map(int, input().split())
 board = []
+m_r, m_c = 0, 0
+z_r, z_c = 0, 0
+visitedSet = set()
 for i in range(R):
     arr = list(input())
     for j in range(C):
+        if arr[j] != '.':
+            visitedSet.add((i, j))
+
         if arr[j] == 'M':
             m_r, m_c = i, j
         elif arr[j] == 'Z':
             z_r, z_c = i, j
     board.append(arr)
 
-pipe = ['|', '-', '+', '1', '2', '3', '4']
-
-dr = [-1, 1, 0, 0]
-dc = [0, 0, -1, 1]
-
-# 모든 조건 다 나열해보세
-def bfs():
+def findLostPos(board, s_r, s_c):
     q = deque()
-    visited = [[[False] * 4 for _ in range(C)] for _ in range(R)] # 해당 하는 칸에 어떤 방향에서 들어왔는지도 기록
+    d = -1
     for k in range(4):
-        visited[m_r][m_c][k] = True
-        nr = m_r + dr[k]
-        nc = m_c + dc[k]
+        nr = s_r + dr[k]
+        nc = s_c + dc[k]
         if 0 <= nr < R and 0 <= nc < C:
-            if board[nr][nc] in pipe:
-                if k == 0:
-                    if board[nr][nc] in ('|', '+', '1', '4'):
-                        q.append((nr, nc, k))
-                        visited[nr][nc][k] = True
-                elif k == 1:
-                    if board[nr][nc] in ('|', '+', '2', '3'):
-                        q.append((nr, nc, k))
-                        visited[nr][nc][k] = True
-                elif k == 2:
-                    if board[nr][nc] in ('-', '+', '1', '2'):
-                        q.append((nr, nc, k))
-                        visited[nr][nc][k] = True
-                elif k == 3:
-                    if board[nr][nc] in ('-', '+', '3', '4'):
-                        q.append((nr, nc, k))
-                        visited[nr][nc][k] = True
+            if board[nr][nc] != '.' and board[nr][nc] != 'Z':
+                d = k
+                q.append((nr, nc))
+                break
 
     while q:
-        r, c, d = q.popleft()
-
-        if board[r][c] in ('1', '2', '3', '4'):
-            if board[r][c] == '1':
-                # 오른쪽에서 온 경우
-                if d == 2:
-                    d = 1
-
-                # 아래쪽에서 온 경우
-                elif d == 0:
-                    d = 3
-            elif board[r][c] == '2':
-                # 오른쪽에서 온 경우
-                if d == 2:
-                    d = 0
-
-                # 위쪽에서 온 경우
-                elif d == 1:
-                    d = 3
-            elif board[r][c] == '3':
-                # 왼쪽에서 온 경우
-                if d == 3:
-                    d = 0
-
-                # 위쪽에서 온 경우
-                elif d == 1:
-                    d = 2
-
-            elif board[r][c] == '4':
-                # 왼쪽에서 온 경우
-                if d == 3:
-                    d = 1
-
-                # 아래쪽에서 온 경우
-                elif d == 0:
-                    d = 2
-
-        nr = r + dr[d]
-        nc = c + dc[d]
-
+        r, c = q.popleft()
+        new_d = dirDict[board[r][c]][d]
+        nr = r + dr[new_d]
+        nc = c + dc[new_d]
         if 0 <= nr < R and 0 <= nc < C:
-            if nr == z_r and nc == z_c:
-                return True
+            if board[nr][nc] == '.':
+                return (nr, nc)
+            else:
+                d = new_d
+                q.append((nr, nc))
 
-            # 위쪽으로 가는 경우
-            if d == 0:
-                if board[nr][nc] in ('|', '+', '1', '4') and not visited[nr][nc][d]:
-                    q.append((nr, nc, d))
-                    visited[nr][nc][d] = True
+def testRoute(board, s_r, s_c):
+    visited = set()
+    visited.add((s_r, s_c))
+    q = deque()
+    d = -1
+    for k in range(4):
+        nr = s_r + dr[k]
+        nc = s_c + dc[k]
+        if 0 <= nr < R and 0 <= nc < C:
+            if board[nr][nc] != '.' and board[nr][nc] != 'Z':
+                d = k
+                q.append((nr, nc))
+                visited.add((nr, nc))
+                break
+    while q:
+        r, c = q.popleft()
+        if d not in dirDict[board[r][c]]:
+            return False
+        new_d = dirDict[board[r][c]][d]
+        nr = r + dr[new_d]
+        nc = c + dc[new_d]
+        if 0 <= nr < R and 0 <= nc < C:
+            if board[nr][nc] == '.':
+                return False
+            elif board[nr][nc] == 'Z':
+                visited.add((nr, nc))
+                if visited == visitedSet:
+                    return True
+                return False
 
-            # 아래쪽으로 가는 경우
-            elif d == 1:
-                if board[nr][nc] in ('|', '+', '2', '3') and not visited[nr][nc][d]:
-                    q.append((nr, nc, d))
-                    visited[nr][nc][d] = True
-
-            # 왼쪽으로 가는 경우
-            elif d == 2:
-                if board[nr][nc] in ('-', '+', '1', '2') and not visited[nr][nc][d]:
-                    q.append((nr, nc, d))
-                    visited[nr][nc][d] = True
-
-            # 오른쪽으로 가는 경우
-            elif d == 3:
-                if board[nr][nc] in ('-', '+', '3', '4') and not visited[nr][nc][d]:
-                    q.append((nr, nc, d))
-                    visited[nr][nc][d] = True
-
+            else:
+                d = new_d
+                q.append((nr, nc))
+                visited.add((nr, nc))
     return False
 
-for i in range(R):
-    for j in range(C):
-        if board[i][j] == '.':
-            for k in range(7):
-                board[i][j] = pipe[k]
-                result = bfs()
-                if result:
-                    print(i+1, j+1, pipe[k])
-                    exit()
-            board[i][j] = '.'
+lostPos = findLostPos(board, m_r, m_c)
+visitedSet.add(lostPos)
+for key in ('|', '-', '+', '1', '2', '3', '4'):
+    board[lostPos[0]][lostPos[1]] = key
+    if testRoute(board, m_r, m_c):
+        print(lostPos[0]+1, lostPos[1]+1, key)
+        break
+    board[lostPos[0]][lostPos[1]] = '.'
