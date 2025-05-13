@@ -1,5 +1,3 @@
-from collections import deque
-
 N, M, K = map(int, input().split())
 friend_money = [0] + list(map(int, input().split()))
 graph = [[] for _ in range(N+1)]
@@ -25,8 +23,8 @@ for _ in range(M):
     union(a, b)
 
 tmp = 0
-for i in range(1, N+1):
-    find(i)
+# for i in range(1, N+1):
+#     find(i)
 
 for i in range(1, N+1):
     if parents[i] == i:
