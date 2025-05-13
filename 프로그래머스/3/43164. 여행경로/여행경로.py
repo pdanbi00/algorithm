@@ -1,30 +1,18 @@
-# dfs
 def solution(tickets):
     answer = []
-    tickets.sort(key=lambda x : (x[0], x[1]))
+    visited = [False] * len(tickets)
     
-    # DFS
-    def getPath(t, path):
-        # 티켓을 다 썼다면 현재까지의 path 그대로 리턴
-        if len(t) == 0:
-            return path
-        now = path[-1]
-        valid_idx = -1
-        
-        # 남은 티켓 중에서 출발지가 현재 공항인 티켓 인덱스 찾기
-        for i in range(len(t)):
-            if t[i][0] == now:
-                valid_idx = i
-                break
-        
-        # 티켓이 남아있는데 갈 수 있는 공항이 없다는건 유효한 루트가 아닌거임
-        if valid_idx == -1:
-            return []
-        
-        while t[valid_idx][0] == now:
-            next_path = getPath(t[:valid_idx] + t[valid_idx+1:], path + [t[valid_idx][1]])
-            if next_path != []:
-                return next_path
-            valid_idx += 1
-        return []
-    return getPath(tickets, ['ICN'])
+    def dfs(airport, path):
+        # 모든 티켓을 한번씩 다 사용해서 갈 수 있는 모든 경로가 answer에 저장됨
+        if (len(path) == len(tickets) + 1):
+            answer.append(path)
+            return
+        for idx, ticket in enumerate(tickets):
+            if ticket[0] == airport and visited[idx] == False:
+                visited[idx] = True
+                dfs(ticket[1], path + [ticket[1]])
+                visited[idx] = False
+    dfs("ICN", ["ICN"])
+    # 저장 된 모든 경로 중에 알파벳 순서가 앞서는 순서들로 이뤄진 첫번째 경로 반환하기 위해서
+    answer.sort()
+    return answer[0]
