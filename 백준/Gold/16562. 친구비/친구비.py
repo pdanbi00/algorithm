@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 N, M, K = map(int, input().split())
 friend_money = [0] + list(map(int, input().split()))
 graph = [[] for _ in range(N+1)]
