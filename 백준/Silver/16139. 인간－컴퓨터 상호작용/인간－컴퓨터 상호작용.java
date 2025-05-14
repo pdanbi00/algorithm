@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 import java.io.*;
 public class Main {
@@ -22,14 +23,15 @@ public class Main {
         }
 
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < q; i++) {
             st = new StringTokenizer(br.readLine());
             int target = st.nextToken().charAt(0)-'a';
             int start = Integer.parseInt(st.nextToken())+1;
             int end = Integer.parseInt(st.nextToken())+1;
-
-            System.out.println(arr[end][target] - arr[start-1][target]);
+            sb.append(arr[end][target] - arr[start-1][target]).append("\n");
         }
+        System.out.println(sb);
 
     }
 }
