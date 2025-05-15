@@ -1,18 +1,22 @@
 import java.util.*;
-
 class Solution {
-    public String solution(String[] participant, String[] completion) {
-        // 1. 배열 2개 정렬
-        Arrays.sort(participant);
-        Arrays.sort(completion);
+    public String solution(String[] participants, String[] completion) {
+        String answer = "";
+        Map<String, Integer> name = new HashMap<>();
+        for (String participant : participants) {
+            name.put(participant, name.getOrDefault(participant, 0) + 1);
+        }
+        for (String comple : completion) {
+            name.put(comple, name.getOrDefault(comple, 0) + 1);
+        }
         
-        // 배열 다를 때까지 찾기
-        int i;
-        for (i = 0; i < completion.length; i++) {
-            if(!participant[i].equals(completion[i])){
-                break;
+        for (Map.Entry<String, Integer> entry : name.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            if (value % 2 == 1) {
+                return key;
             }
         }
-        return participant[i];
+        return answer;
     }
 }
