@@ -5,18 +5,16 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        List<Integer> list = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
         for (int i = 1; i <= N; i++) {
-            list.add(i);
+            q.add(i);
         }
 
-        while (!list.isEmpty()) {
-            System.out.print(list.remove(0) + " ");
-            if (!list.isEmpty()) {
-                int tmp = list.remove(0);
-                list.add(tmp);
-            }
-
+        while (q.size() != 1) {
+            System.out.print(q.poll() + " ");
+            int tmp = q.poll();
+            q.add(tmp);
         }
+        System.out.print(q.poll());
     }
 }
