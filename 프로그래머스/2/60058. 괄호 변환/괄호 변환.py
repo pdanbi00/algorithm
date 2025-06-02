@@ -43,7 +43,7 @@ def solution(p):
     if check_gwalho(p):
         return p
 
-    for i in range(2, len(p), 2):
+    for i in range(2, len(p)+1, 2):
         u = p[:i]
         v = p[i:]
         # print('u : ', u, 'v : ', v)
@@ -68,25 +68,25 @@ def solution(p):
                 tmp += j
             if check_gwalho(tmp):
                 return tmp
-    u = p[:]
-    v = ''
-    # print('u : ', u, 'v : ', v)
+#     u = p[:]
+#     v = ''
+#     # print('u : ', u, 'v : ', v)
 
-    if check_gwalho(u):
-        new_p = u + solution(v)
-        if check_gwalho(new_p):
-            return new_p
+#     if check_gwalho(u):
+#         new_p = u + solution(v)
+#         if check_gwalho(new_p):
+#             return new_p
 
-    else:
-        tmp = '('
-        tmp += solution(v) + ')'
-        new_arr = ''
-        for j in range(1, len(u) - 1):
-            if u[j] == '(':
-                new_arr += ')'
-            else:
-                new_arr += '('
-        for j in new_arr:
-            tmp += j
-        if check_gwalho(tmp):
-            return tmp
+#     else:
+#         tmp = '('
+#         tmp += solution(v) + ')'
+#         new_arr = ''
+#         for j in range(1, len(u) - 1):
+#             if u[j] == '(':
+#                 new_arr += ')'
+#             else:
+#                 new_arr += '('
+#         for j in new_arr:
+#             tmp += j
+#         if check_gwalho(tmp):
+#             return tmp
