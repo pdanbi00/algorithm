@@ -1,39 +1,41 @@
-import math
+
+# 백트래킹
+from math import factorial
 N, R, G, B = map(int, input().split())
+RGB = [R, G, B]
+answer = 0
+c = [(0, 1), (0, 2), (1, 2)]
 
-dp = [[[[0] * (B+1) for _ in range(G+1)] for _ in range(R+1)] for _ in range(N+1)]
-# dp[i][r][g][b] : 빨간색 r개, 초록색 g개, 파란색 b개의 장식품으로 i단 트리를 꾸미는 경우
+def combination(x, y):
+    return factorial(x) // factorial(y) // factorial(x-y)
 
-for i in range(N+1):
-    for r in range(R+1):
-        for g in range(G+1):
-            for b in range(B+1):
-                # 초기값 세팅
-                if i == 0:
-                    dp[i][r][g][b] = 1
-                    continue
-                # i단을 하나의 색으로만 꾸미는 경우
-                if r - i >= 0:
-                    dp[i][r][g][b] += dp[i-1][r-i][g][b] * 1
-                if g - i >= 0:
-                    dp[i][r][g][b] += dp[i-1][r][g-i][b] * 1
-                if b - i >= 0:
-                    dp[i][r][g][b] += dp[i-1][r][g][b-i] * 1
+def DFS(n, cnt):
+    global answer
+    if n == N+1:
+        answer += cnt
+        return
+    for i in range(3):
+        if RGB[i] >= n:
+            RGB[i] -= n
+            DFS(n+1, cnt)
+            RGB[i] += n
 
-                # i단을 2개의 색으로 꾸미는 경우
-                if i % 2 == 0:
-                    tmp = i // 2
-                    if r - tmp >= 0 and g - tmp >= 0:
-                        dp[i][r][g][b] += dp[i - 1][r - tmp][g - tmp][b] * math.comb(i, tmp)
-                    if r - tmp >= 0 and b - tmp >= 0:
-                        dp[i][r][g][b] += dp[i - 1][r - tmp][g][b - tmp] * math.comb(i, tmp)
-                    if g - tmp >= 0 and b - tmp >= 0:
-                        dp[i][r][g][b] += dp[i - 1][r][g - tmp][b - tmp] * math.comb(i, tmp)
+    if n % 2 == 0:
+        for i, j in c:
+            if RGB[i] >= n // 2 and RGB[j] >= n // 2:
+                RGB[i] -= n // 2
+                RGB[j] -= n // 2
+                DFS(n + 1, cnt * combination(n, n//2))
+                RGB[i] += n // 2
+                RGB[j] += n // 2
 
-                # i단을 3개의 색으로 꾸미는 경우
-                if i % 3 == 0:
-                    tmp = i // 3
-                    if r - tmp >= 0 and g - tmp >= 0 and b - tmp >= 0:
-                        dp[i][r][g][b] += dp[i - 1][r - tmp][g - tmp][b - tmp] * math.comb(i, tmp) * math.comb(i-tmp, tmp)
+    if n % 3 == 0:
+        if RGB[0] >= n // 3 and RGB[1] >= n // 3 and RGB[2] >= n // 3:
+            for i in range(3):
+                RGB[i] -= n // 3
+            DFS(n+1, cnt * combination(n, n//3) * combination(n-(n//3), n//3))
+            for i in range(3):
+                RGB[i] += n // 3
 
-print(dp[N][R][G][B])
+DFS(1, 1)
+print(answer)
