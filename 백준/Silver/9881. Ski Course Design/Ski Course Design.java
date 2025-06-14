@@ -22,7 +22,7 @@ public class Main {
         }
 
         int answer = Integer.MAX_VALUE;
-        for (int tmp = min; tmp < max-17; tmp++) {
+        for (int tmp = min; tmp <= max-17; tmp++) {
             int result = 0;
             for (int i = 0; i < N; i++) {
                 if (hills[i] < tmp) {
@@ -31,6 +31,7 @@ public class Main {
                     result += Math.pow((hills[i] - (tmp + 17)), 2);
                 }
             }
+//            System.out.println("tmp : " + tmp + " result : " + result);
             if (answer > result) {
                 answer = result;
             }
