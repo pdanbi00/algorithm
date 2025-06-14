@@ -5,53 +5,30 @@ PR, PC = map(int, input().split())
 dr = [-1, 0, 1, 0]
 dc = [0, 1, 0, -1]
 
+P = [1, 0, 3, 2]
+Q = [3, 2, 1, 0]
+dirs = ['U', 'R', 'D', 'L']
+
 def func(i, j, d):
-    visited = [[[False] * 4 for _ in range(M)] for _ in range(N)]
     cnt = 0
-    q = deque()
-    q.append((i, j, d))
-    visited[i][j][d] = True
-    while q:
+    r, c, di = i, j, d
+    while True:
         cnt += 1
-        r, c, d = q.popleft()
-        nr = r + dr[d]
-        nc = c + dc[d]
-        if 0 <= nr < N and 0 <= nc < M:
-            if not visited[nr][nc][d]:
-                if board[nr][nc] == '.':
-                    q.append((nr, nc, d))
-                    visited[nr][nc][d] = True
-                elif board[nr][nc] == 'C':
-                    return cnt
-                elif board[nr][nc] == '/':
-                    visited[nr][nc][d] = True
-                    if d == 0:
-                        d = 1
-                    elif d == 1:
-                        d = 0
-                    elif d == 2:
-                        d = 3
-                    elif d == 3:
-                        d = 2
-                    q.append((nr, nc, d))
-
-
-                elif board[nr][nc] == '\\':
-                    visited[nr][nc][d] = True
-                    if d == 0:
-                        d = 3
-                    elif d == 1:
-                        d = 2
-                    elif d == 2:
-                        d = 1
-                    elif d == 3:
-                        d = 0
-                    q.append((nr, nc, d))
-
-            else:
+        r += dr[di]
+        c += dc[di]
+        if 0 <= r < N and 0 <= c < M:
+            if r == i and c == j and di == d:
                 return 1e9
-
-
+            if board[r][c] == '.':
+                continue
+            elif board[r][c] == 'C':
+                return cnt
+            elif board[r][c] == '/':
+                di = P[di]
+            elif board[r][c] == '\\':
+                di = Q[di]
+        else:
+            break
     return cnt
 
 answer = []
@@ -64,14 +41,7 @@ for i in range(1, 4):
     if answer[i] > tmp:
         tmp = answer[i]
         idx = i
-if idx == 0:
-    print('U')
-elif idx == 1:
-    print('R')
-elif idx == 2:
-    print('D')
-else:
-    print('L')
+print(dirs[idx])
 if tmp == 1e9:
     print("Voyager")
 else:
