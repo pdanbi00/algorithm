@@ -1,6 +1,8 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 N, M = map(int, input().split())
-board = [list(input()) for _ in range(N)]
+board = [list(input().rstrip()) for _ in range(N)]
 PR, PC = map(int, input().split())
 dr = [-1, 0, 1, 0]
 dc = [0, 1, 0, -1]
