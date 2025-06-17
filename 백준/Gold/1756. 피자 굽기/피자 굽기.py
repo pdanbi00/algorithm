@@ -1,4 +1,3 @@
-# 피자의 크기보다 작거나 마지막일 경우 그 위치에 고정됨. 그 위치는 이제 막혔다고 표시
 D, N = map(int, input().split())
 oven = list(map(int, input().split()))
 pizza = list(map(int, input().split()))
@@ -10,23 +9,16 @@ for i in range(len(oven)-1):
         oven[i+1] = oven[i]
 
 # 반죽 넣기
-result = 0
-oven_idx = len(oven) - 1
-break_cnt = 0
-
-for p in pizza:
-    # 1. 오븐 크기만큼 순회
-    while oven_idx >= 0:
-        # 2. 지금 오븐의 크기보다 피자의 크기가 작으면 동톼
-        if p <= oven[oven_idx]:
-            result = oven_idx
-            oven_idx -= 1
-            break_cnt += 1
+p = 0 # 오븐에 넣은 피자 개수
+idx = D - 1 # 오븐 인덱스
+while idx >= 0:
+    if pizza[p] <= oven[idx]:
+        p += 1
+        if p == N:
             break
-        else:
-            oven_idx -= 1
 
-if break_cnt == N:
-    print(result+1)
+    idx -= 1
+if p == N:
+    print(idx + 1)
 else:
     print(0)
