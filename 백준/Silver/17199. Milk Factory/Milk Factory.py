@@ -5,18 +5,18 @@ for _ in range(N-1):
     a, b = map(int, input().split())
     graph[b].append(a)
 find = False
+
+def dfs(node):
+    for next_node in graph[node]:
+        if not visited[next_node]:
+            visited[next_node] = True
+            dfs(next_node)
+
 for i in range(1, N+1):
     visited = [False] * (N+1)
     visited[0] = True
-    q = deque()
-    q.append(i)
     visited[i] = True
-    while q:
-        now = q.popleft()
-        for next_node in graph[now]:
-            if not visited[next_node]:
-                q.append(next_node)
-                visited[next_node] = True
+    dfs(i)
     if False not in visited:
         answer = i
         find = True
