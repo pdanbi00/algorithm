@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 T = int(input())
 for _ in range(T):
     N = int(input())
@@ -12,11 +14,13 @@ for _ in range(T):
     num = 1
     visited = [False] * N
     while num <= N:
-        zero_idx = 0
+        zero_idx = -1
         for i in range(N):
             if R[i] == 0 and not visited[i]:
                 zero_idx = i
-
+        if zero_idx == -1:
+            break
+            
         answer[zero_idx] = num
         for i in range(zero_idx + 1, N):
             if R[i] != 0:
