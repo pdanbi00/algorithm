@@ -1,8 +1,9 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
         for (int tc = 0; tc < T; tc++) {
             int N = Integer.parseInt(br.readLine());
@@ -11,42 +12,39 @@ public class Main {
             boolean possible = true;
             for (int i = 0; i < N; i++) {
                 R[i] = Integer.parseInt(st.nextToken());
-                if (R[i] > i) {
-                    possible = false;
-                }
             }
-            int num = 1;
-            if (possible) {
-                int[] answer = new int[N];
-                boolean[] visited = new boolean[N];
-                while (num <= N) {
-                    int zero_idx = -1;
-                    for (int i = 0; i < N; i++) {
-                        if (R[i] == 0 && !visited[i]) {
-                            zero_idx = i;
-                        }
-                    }
-                    if (zero_idx == -1) {
+            ArrayList<Integer> used = new ArrayList<>();
+            int[] ans = new int[N];
+            used.add(R[N-1] + 1);
+            ans[N-1] = R[N-1] + 1;
+            for (int i = N-2; i >= 0; i--) {
+                int res = R[i] + 1;
+                Collections.sort(used);
+                for (int j : used) {
+                    if (res >= j) {
+                        res++;
+                    } else {
                         break;
                     }
-                    answer[zero_idx] = num;
-                    num++;
-                    visited[zero_idx] = true;
-
-                    for (int i = zero_idx + 1; i < N; i++) {
-                        if (R[i] != 0) {
-                            R[i] -= 1;
-                        }
-                    }
-
                 }
+                if (res > N) {
+                    possible = false;
+                    break;
+                }
+
+                ans[i] = res;
+                used.add(res);
+            }
+
+            if (possible) {
                 for (int i = 0; i < N; i++) {
-                    System.out.print(answer[i] + " ");
+                    sb.append(ans[i] + " ");
                 }
-                System.out.println("");
+                sb.append("\n");
             } else {
-                System.out.println("IMPOSSIBLE");
+                sb.append("IMPOSSIBLE\n");
             }
         }
+        System.out.println(sb);
     }
 }
