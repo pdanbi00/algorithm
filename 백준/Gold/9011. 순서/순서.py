@@ -1,34 +1,30 @@
 import sys
 input = sys.stdin.readline
+
 T = int(input())
 for _ in range(T):
     N = int(input())
     R = list(map(int, input().split()))
     possible = True
-    answer = [0] * N
+    ans = [0] * N
+    used = [R[N-1] + 1]
+    ans[-1] = R[N-1] + 1
+    for i in range(N-2, -1, -1):
+        res = R[i] + 1
+        used.sort()
+        for j in used:
+            if res >= j:
+                res += 1
+            else:
+                break
 
-    for i in range(N):
-        if R[i] > i:
+        if res > N:
             possible = False
             break
-    num = 1
-    visited = [False] * N
-    while num <= N:
-        zero_idx = -1
-        for i in range(N):
-            if R[i] == 0 and not visited[i]:
-                zero_idx = i
-        if zero_idx == -1:
-            break
-            
-        answer[zero_idx] = num
-        for i in range(zero_idx + 1, N):
-            if R[i] != 0:
-                R[i] -= 1
-        visited[zero_idx] = True
-        num += 1
+        ans[i] = res
+        used.append(res)
 
     if possible:
-        print(*answer)
+        print(*ans)
     else:
         print("IMPOSSIBLE")
