@@ -25,8 +25,6 @@ for i in range(M):
 s_r = points[0][0]
 s_c = points[0][1]
 
-points = set(points)
-
 def bfs(r, c, d):
     q = deque()
     q.append((r, c))
@@ -42,12 +40,11 @@ def bfs(r, c, d):
                 if (abs(board[rr][cc] - board[nr][nc]) <= d and not visited[nr][nc]):
                     q.append((nr, nc))
                     visited[nr][nc] = True
-                    if (nr, nc) in points:
-                        cnt += 1
-    if cnt == len(points):
-        return True
 
-    return False
+    for r, c in points:
+        if not visited[r][c]:
+            return False
+    return True
 
 left = 0
 right = max_v - min_v
