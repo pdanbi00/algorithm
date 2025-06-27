@@ -11,7 +11,7 @@ public class Main {
             nums[i][0] = num;
             nums[i][1] = i;
         }
-        Arrays.sort(nums, Comparator.comparing((int[] o) -> o[0]));
+        Arrays.sort(nums, (a, b) -> a[0] - b[0]);
         int answer = 0;
         for (int i = 0; i < N; i++) {
             int tmp = nums[i][1] - i;
