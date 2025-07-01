@@ -1,0 +1,33 @@
+arr = list(input())
+stack = []
+answer = 0
+tmp = 1
+for i in range(len(arr)):
+    if arr[i] == '(':
+        stack.append('(')
+        tmp *= 2
+
+    elif arr[i] == '[':
+        stack.append('[')
+        tmp *= 3
+    elif arr[i] == ')':
+        if not stack or stack[-1] != '(':
+            answer = 0
+            break
+        if arr[i-1] == '(':
+            answer += tmp
+        stack.pop()
+        tmp //= 2
+    else:
+        if not stack or stack[-1] != '[':
+            answer = 0
+            break
+        if arr[i-1] == '[':
+            answer += tmp
+        stack.pop()
+        tmp //= 3
+
+if stack:
+    answer = 0
+
+print(answer)
