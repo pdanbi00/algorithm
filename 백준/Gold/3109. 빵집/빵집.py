@@ -1,6 +1,6 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**9)
+sys.setrecursionlimit(10**5)
 dr = [-1, 0, 1]
 dc = [1, 1, 1]
 
