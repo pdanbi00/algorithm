@@ -9,28 +9,26 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        Deque<Num> q = new ArrayDeque<>();
+        Deque<Balloon> q = new ArrayDeque<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             int n = Integer.parseInt(st.nextToken());
-            q.add(new Num(n, i+1));
+            q.add(new Balloon(n, i+1));
         }
         ArrayList<Integer> answer = new ArrayList();
         while (!q.isEmpty()) {
-            Num cur = q.pollFirst();
+            Balloon cur = q.pollFirst();
             answer.add(cur.idx);
             if (cur.num > 0) {
                 int cnt = 1;
                 while (cnt < cur.num && !q.isEmpty()) {
-                    Num tmp = q.pollFirst();
-                    q.addLast(tmp);
+                    q.addLast(q.pollFirst());
                     cnt++;
                 }
             } else if (cur.num < 0) {
                 int cnt = 0;
                 while (cnt < Math.abs(cur.num) && !q.isEmpty()) {
-                    Num tmp = q.pollLast();
-                    q.addFirst(tmp);
+                    q.addFirst(q.pollLast());
                     cnt++;
                 }
             }
@@ -44,13 +42,13 @@ public class Main {
 
     }
 
-    public static class Num {
-        int num;
-        int idx;
+}
+class Balloon {
+    int num;
+    int idx;
 
-        public Num(int num, int idx) {
-            this.num = num;
-            this.idx = idx;
-        }
+    public Balloon(int num, int idx) {
+        this.num = num;
+        this.idx = idx;
     }
 }
