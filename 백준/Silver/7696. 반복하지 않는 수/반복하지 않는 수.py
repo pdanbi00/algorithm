@@ -1,7 +1,8 @@
+from collections import deque
 import sys
 input = sys.stdin.readline
 num = 1
-nums = []
+nums = deque()
 
 def duplication(num):
     check = [False] * 10
