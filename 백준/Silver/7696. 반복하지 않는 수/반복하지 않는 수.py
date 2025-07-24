@@ -1,26 +1,15 @@
-from collections import deque
-import sys
-input = sys.stdin.readline
-num = 1
-nums = deque()
-
-def duplication(num):
-    check = [False] * 10
-    while num > 0:
-        tmp = num % 10
-        if check[tmp]:
-            return True
-        check[tmp] = True
-        num //= 10
-    return False
-
-while len(nums) < 1000000:
-    if duplication(num) == False:
-        nums.append(num)
-    num += 1
-
+from itertools import permutations
+arr = []
+for k in range(1, 9):
+    for perm in permutations('0123456789', k):
+        if perm[0] != '0':
+            arr.append(int("".join(perm)))
+            if len(arr) == 1000000:
+                break
+    if len(arr) == 1000000:
+        break
 while True:
     N = int(input())
     if N == 0:
         break
-    print(nums[N-1])
+    print(arr[N-1])
