@@ -115,6 +115,18 @@ public class Main {
                         } else if (b == diff_b && next == pieces[k]) {
                             possible = false;
                             break;
+                        } else if (tmp == 30) {
+                            if (b == base_30 && next != 0) {
+                                if (diff_b == base_10 || diff_b == base_20 || (diff_b == base_30 && pieces[k] != 0)) {
+                                    possible = false;
+                                    break;
+                                }
+                            } else if (diff_b == base_30 && pieces[k] != 0) {
+                                if (b == base_10 || b == base_20 || (b == base_30 && next != 0)) {
+                                    possible = false;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
