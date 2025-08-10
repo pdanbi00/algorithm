@@ -29,7 +29,7 @@ while q:
                 q.append((tmp, used))
                 nums.add(tmp)
     if used == 0:
-        tmp = round(value / 2)
+        tmp = value // 2
         if tmp not in nums:
             if tmp <= T:
                 if tmp == T:
