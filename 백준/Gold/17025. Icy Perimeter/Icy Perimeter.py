@@ -1,6 +1,8 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 N = int(input())
-board = [list(input()) for _ in range(N)]
+board = [list(input().rstrip()) for _ in range(N)]
 
 visited = [[False] * N for _ in range(N)]
 
