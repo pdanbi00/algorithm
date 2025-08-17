@@ -5,6 +5,9 @@ dp = [1e9] * N
 dp[0] = 0
 
 for i in range(N):
+    if dp[i] == 1e9:
+        continue
+
     if blocks[i] == 'B':
         for j in range(i, N):
             if blocks[j] == 'O':
