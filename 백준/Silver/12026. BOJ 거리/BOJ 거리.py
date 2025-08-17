@@ -9,15 +9,15 @@ for i in range(N):
         continue
 
     if blocks[i] == 'B':
-        for j in range(i, N):
+        for j in range(i+1, N):
             if blocks[j] == 'O':
                 dp[j] = min(dp[j], dp[i] + (j-i)**2)
     elif blocks[i] == 'O':
-        for j in range(i, N):
+        for j in range(i+1, N):
             if blocks[j] == 'J':
                 dp[j] = min(dp[j], dp[i] + (j-i)**2)
     elif blocks[i] == 'J':
-        for j in range(i, N):
+        for j in range(i+1, N):
             if blocks[j] == 'B':
                 dp[j] = min(dp[j], dp[i] + (j-i)**2)
 
