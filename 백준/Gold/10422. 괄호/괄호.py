@@ -3,6 +3,8 @@
 # 첫번째 연 괄호랑 그걸 닫는 괄호 사이의 공간의 괄호 개수는 i-2개임
 # i번째 이후의 공간 이후 괄호 개수는 n - (i-2 + 2) -> (n - i)개
 # 결과적으로 dp[n] = dp[i-2] * dp[n-i]
+import sys
+input = sys.stdin.readline
 
 dp = [0] * 5001
 dp[0] = 1
