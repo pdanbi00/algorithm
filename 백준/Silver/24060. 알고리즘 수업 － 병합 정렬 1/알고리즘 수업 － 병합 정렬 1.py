@@ -1,5 +1,5 @@
 def merge(nums, s, q, e):
-    global cnt, num
+    global cnt, result
     i = s
     j = q+1
     t = 0
@@ -30,13 +30,17 @@ def merge(nums, s, q, e):
         nums[i] = tmp[t]
         cnt += 1
         if cnt == K:
-            num = tmp[t]
+            result = tmp[t]
+            break
         t += 1
         i += 1
 
 
 
 def merge_sort(arr, s, e):
+    if cnt > K:
+        return
+
     if (s < e):
         q = (s + e) // 2
         merge_sort(arr, s, q)
@@ -47,11 +51,8 @@ def merge_sort(arr, s, e):
 N, K = map(int, input().split())
 nums = list(map(int, input().split()))
 cnt = 0
-num = -1
+result = -1
 
 merge_sort(nums, 0, N-1)
 
-if cnt < K:
-    print(-1)
-else:
-    print(num)
+print(result)
