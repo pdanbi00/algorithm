@@ -3,7 +3,7 @@ import java.util.StringTokenizer;
 public class Main {
     static int N, K;
     static int[] nums;
-    static int num;
+    static int result;
     static int cnt;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,15 +15,15 @@ public class Main {
         for (int i = 0; i < N; i++) {
             nums[i] = Integer.parseInt(st.nextToken());
         }
-        num = -1;
+        result = -1;
         merge_sort(0, N-1);
-        if (cnt < K) {
-            System.out.println(-1);
-        } else {
-            System.out.println(num);
-        }
+        System.out.println(result);
     }
     static public void merge_sort(int p, int r) {
+        if (cnt > K) {
+            return;
+        }
+
         if (p < r) {
             int q = (p + r) / 2;
             merge_sort(p, q);
@@ -58,7 +58,8 @@ public class Main {
             nums[i] = tmp[t];
             cnt++;
             if (cnt == K) {
-                num = tmp[t];
+                result = tmp[t];
+                break;
             }
             t++;
             i++;
