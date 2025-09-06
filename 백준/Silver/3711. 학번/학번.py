@@ -8,14 +8,19 @@ for _ in range(N):
     if G == 1:
         print(1)
     else:
-        cnt = 2
-        while True:
-            mod = set()
-            for i in range(G):
-                mod.add(students[i] % cnt)
-            mod = list(mod)
-            if len(mod) == G:
-                print(cnt)
+        maxS = max(students)
+        used = [-1] * (maxS + 1)
+        for i in range(2, maxS+2):
+            roundId = i-1
+            possible = True
+            for j in range(G):
+                m = students[j] % i
+                if used[m] == roundId:
+                    possible = False
+                    break
+                else:
+                    used[m] = roundId
+
+            if possible:
+                print(i)
                 break
-            else:
-                cnt += 1
