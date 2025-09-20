@@ -7,22 +7,16 @@ N =len(arr)
 뒷다리 위치 < 앞다리 위치
 '''
 
-back = []
-front = []
-for i in range(N-1):
-    if i < N-3:
-        if arr[i] == arr[i+1] and arr[i] == '(':
-            back.append(i)
+answer = 0 # 순서쌍 개수
+cnt = 0 # 뒷다리 개수
 
-    if arr[i] == arr[i + 1] and arr[i] == ')':
-        front.append(i)
+# 뒷다리 개수를 ) 찾은 개수만큼 더하면 됨
+# ( 다음에 오는 )를 찾으면 그 전에 있던 ( 개수를 다 더하면 됨
+for i in range(1, N):
+    if arr[i] == arr[i-1]:
+        if arr[i] == '(':
+            cnt += 1
+        else:
+            answer += cnt
 
-# print(back)
-# print(front)
-answer = 0
-for i in range(len(back)):
-    for j in range(len(front)):
-        if back[i] <= front[j]:
-            answer += len(front) - j
-            break
 print(answer)
