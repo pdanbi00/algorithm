@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 T = int(input())
 
 dr = [-1, -1, -1, 0, 0, 1, 1, 1]
