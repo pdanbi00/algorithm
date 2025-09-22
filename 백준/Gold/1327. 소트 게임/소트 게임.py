@@ -1,10 +1,10 @@
 from collections import deque
 N, K = map(int, input().split())
 
-nums = tuple(map(int, (input().split())))
-target = tuple(range(1, N+1))
+nums = list(input().split())
+target = sorted(nums)
 
-visited = set(nums)
+visited = set("".join(nums))
 q = deque()
 q.append((nums, 0))
 
@@ -19,8 +19,9 @@ while q:
     for i in range(N - K + 1):
         tmp = now[i:i + K]
         new = now[:i] + tmp[::-1] + now[i + K:]
-        if new not in visited:
+        new_str = "".join(new)
+        if new_str not in visited:
             q.append((new, cnt+1))
-            visited.add(new)
+            visited.add(new_str)
 
 print(answer)
