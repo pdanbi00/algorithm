@@ -2,7 +2,6 @@ import sys
 txt = []
 for line in sys.stdin:
     txt += line.split()
-
 line = ''
 for w in txt:
     if w == '<br>':
@@ -20,5 +19,5 @@ for w in txt:
             line = w + ' '
         else:
             line += w + ' '
-if line:
-    print(line.rstrip())
+
+print(line.rstrip())
