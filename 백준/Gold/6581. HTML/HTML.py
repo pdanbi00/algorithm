@@ -2,23 +2,23 @@ import sys
 txt = []
 for line in sys.stdin:
     txt += line.split()
-count = 0
+
+line = ''
 for w in txt:
-    if w == "<br>":
-        print()
-        count = 0
-    elif w == "<hr>":
-        if count != 0:
-            print()
+    if w == '<br>':
+        print(line.rstrip())
+        line = ''
+    elif w == '<hr>':
+        if line:
+            print(line.rstrip())
         line = '-' * 80
         print(line)
-        count = 0
+        line = ''
     else:
-        if count + len(w) + 1 > 80:
-            print()
-            count = 0
-        elif count > 0:
-            print(end=" ")
-            count += 1
-        print(w, end="")
-        count += len(w)
+        if len(line + w) > 80:
+            print(line.rstrip())
+            line = w + ' '
+        else:
+            line += w + ' '
+if line:
+    print(line.rstrip())
