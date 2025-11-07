@@ -1,33 +1,24 @@
-from collections import deque
 N, K = map(int, input().split())
+cnt = 0
+ans = ''
 
-visited = set()
-ans = []
-q = deque()
-q.append(('1', 1))
-q.append(('2', 2))
-q.append(('3', 3))
-
-while q:
-    line, total = q.popleft()
+def func(line, total):
+    global cnt, ans
     if total == N:
-        ans.append(line)
-        continue
+        cnt += 1
+        if cnt == K:
+            ans = line
+        return
 
     for i in range(1, 4):
-        if total + i <= N and line + str(i) not in visited:
-            q.append((line+str(i), total + i))
-            visited.add(line + str(i))
+        if total + i <= N:
+            func(line + str(i), total + i)
 
-ans.sort()
 
-if K > len(ans):
+func('', 0)
+# print(ans)
+if cnt < K:
     print(-1)
 else:
-    arr = ans[K - 1]
-
-    tmp = arr[0]
-    for i in range(1, len(arr)):
-        tmp += '+' + arr[i]
-
+    tmp = '+'.join(ans)
     print(tmp)
