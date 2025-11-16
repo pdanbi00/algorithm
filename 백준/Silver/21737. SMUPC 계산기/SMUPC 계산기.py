@@ -1,10 +1,9 @@
 def find_num():
     global idx
     num = ''
-    while idx < len(calc):
+    while idx < N:
         if calc[idx] not in ('S', 'M', 'U', 'P', 'C'):
             num += calc[idx]
-
         else:
             break
         idx += 1
@@ -14,16 +13,16 @@ def find_num():
 
 N = int(input())
 calc = list(input())
-
-tmp = int(calc[0])
+N = len(calc)
 
 if 'C' not in calc:
     print("NO OUTPUT")
 else:
+    ans = []
     idx = 0
     tmp = find_num()
 
-    while idx < len(calc):
+    while idx < N:
         if calc[idx] == 'S':
             idx += 1
             result = find_num()
@@ -47,10 +46,11 @@ else:
             result = find_num()
             tmp += result
         elif calc[idx] == 'C':
-            print(tmp, end=" ")
+            ans.append(tmp)
             idx += 1
         else:
             find_num()
+    print(*ans)
 '''
 2
 000232C38S
