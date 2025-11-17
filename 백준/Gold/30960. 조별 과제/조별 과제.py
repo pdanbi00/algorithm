@@ -8,7 +8,7 @@ for i in range(4, N, 2):
 
 ans = total
 
-for i in range(2, N-1, 2):
+for i in range(2, N-2, 2):
     total -= nums[i] - nums[i-2]
     total -= nums[i+2] - nums[i+1]
     total += nums[i-1] - nums[i-2]
