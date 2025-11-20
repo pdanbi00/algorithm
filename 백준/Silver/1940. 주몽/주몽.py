@@ -4,13 +4,18 @@ materials = list(map(int, input().split()))
 
 materials.sort()
 cnt = 0
-used = [False] * N
+s = 0
+e = N-1
 
-for i in range(N):
-    for j in range(i+1, N):
-        if not used[j] and materials[i] + materials[j] == M:
-            used[i] = True
-            used[j] = True
-            cnt += 1
+while s < e:
+    total = materials[s] + materials[e]
 
+    if total < M:
+        s += 1
+    elif total > M:
+        e -= 1
+    else:
+        cnt += 1
+        s += 1
+        e -= 1
 print(cnt)
