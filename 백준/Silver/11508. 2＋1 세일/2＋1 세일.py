@@ -1,6 +1,3 @@
-import sys
-input = sys.stdin.readline
-
 N = int(input())
 milk = [int(input()) for _ in range(N)]
 milk.sort(reverse=True)
