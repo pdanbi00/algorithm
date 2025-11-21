@@ -10,10 +10,15 @@ class Solution {
             name.put(comple, name.getOrDefault(comple, 0) + 1);
         }
         
-        for (Map.Entry<String, Integer> entry : name.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            if (value % 2 == 1) {
+        // for (Map.Entry<String, Integer> entry : name.entrySet()) {
+        //     String key = entry.getKey();
+        //     Integer value = entry.getValue();
+        //     if (value % 2 == 1) {
+        //         return key;
+        //     }
+        // }
+        for (String key : name.keySet()) {
+            if (name.get(key) % 2 == 1) {
                 return key;
             }
         }
