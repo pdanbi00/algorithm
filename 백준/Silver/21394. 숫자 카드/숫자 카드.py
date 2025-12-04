@@ -11,21 +11,16 @@ for _ in range(T):
     for j in range(cards_cnt[5]):
         cards.append(9)
 
-    idx = 0
-    answer = deque()
-    if len(cards) % 2 == 1:
-        while cards:
-            if idx % 2 == 1:
-                answer.append(cards.popleft())
-            else:
-                answer.appendleft(cards.popleft())
-            idx += 1
-    else:
-        while cards:
-            if idx % 2 == 0:
-                answer.append(cards.popleft())
-            else:
-                answer.appendleft(cards.popleft())
-            idx += 1
+    left = deque()
+    right = deque()
 
+    idx = 0
+    while cards:
+        if idx % 2 == 0:
+            left.append(cards.pop())
+        else:
+            right.appendleft(cards.pop())
+        idx += 1
+
+    answer = left + right
     print(*answer)
