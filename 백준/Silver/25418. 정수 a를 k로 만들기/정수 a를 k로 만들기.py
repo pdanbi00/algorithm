@@ -1,28 +1,15 @@
-from collections import deque
 A, K = map(int, input().split())
 
-visited = set()
-q = deque()
+dp = [1e9] * (K+1)
+dp[A] = 0
 
-q.append((A, 0))
-visited.add(A)
-
-while q:
-    num, cnt = q.popleft()
-    if num == K:
-        answer = cnt
-        break
-
-    new_num = num * 2
+for i in range(A, K+1):
+    new_num = i * 2
     if new_num <= K:
-        if new_num not in visited:
-            q.append((new_num, cnt + 1))
-            visited.add(new_num)
+        dp[new_num] = min(dp[new_num], dp[i] + 1)
 
-    new_num = num + 1
+    new_num = i + 1
     if new_num <= K:
-        if new_num not in visited:
-            q.append((new_num, cnt+1))
-            visited.add(new_num)
+        dp[new_num] = min(dp[new_num], dp[i] + 1)
 
-print(answer)
+print(dp[K])
