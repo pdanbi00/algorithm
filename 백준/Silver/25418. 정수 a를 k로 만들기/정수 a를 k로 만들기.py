@@ -1,15 +1,27 @@
 A, K = map(int, input().split())
+cnt = 0
 
-dp = [1e9] * (K+1)
-dp[A] = 0
+while K != A:
+    isChanged = False
+    if K - 1 == A:
+        cnt += 1
+        break
 
-for i in range(A, K+1):
-    new_num = i * 2
-    if new_num <= K:
-        dp[new_num] = min(dp[new_num], dp[i] + 1)
+    if K % 2 == 1:
+        K -= 1
+        cnt += 1
+        isChanged = True
+    else:
+        while K % 2 == 0:
+            if K - 1 == A or K // 2 < A:
+                break
 
-    new_num = i + 1
-    if new_num <= K:
-        dp[new_num] = min(dp[new_num], dp[i] + 1)
+            K //= 2
+            cnt += 1
+            isChanged = True
 
-print(dp[K])
+    if not isChanged:
+        cnt += (K-A)
+        break
+
+print(cnt)
