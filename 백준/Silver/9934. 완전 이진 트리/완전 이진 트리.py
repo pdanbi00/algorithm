@@ -1,20 +1,20 @@
-def func(start, end, level):
-    if start == end:
-        ans[level].append(tree[start])
-        return
-
-    center = (start + end) // 2
-    func(start, center - 1, level + 1)
-    ans[level].append(tree[center])
-    func(center+1, end, level+1)
-
 K = int(input())
 tree = list(map(int, input().split()))
 l = len(tree)
 
 ans = [[] for _ in range(K)]
 
-func(0, l-1, 0)
+def binary_tree(array, depth):
+    mid_idx = len(array) // 2
+
+    if len(array) == 1:
+        ans[depth].append(array[mid_idx])
+        return
+
+    binary_tree(array[:mid_idx], depth+1)
+    ans[depth].append(array[mid_idx])
+    binary_tree(array[mid_idx+1:], depth+1)
+
+binary_tree(tree, 0)
 for t in ans:
     print(*t)
-
