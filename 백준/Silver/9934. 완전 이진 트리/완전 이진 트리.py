@@ -1,14 +1,12 @@
 K = int(input())
 tree = list(map(int, input().split()))
-l = len(tree)
 
 ans = [[] for _ in range(K)]
 
 def binary_tree(array, depth):
     mid_idx = len(array) // 2
 
-    if len(array) == 1:
-        ans[depth].append(array[mid_idx])
+    if len(array) == 0:
         return
 
     binary_tree(array[:mid_idx], depth+1)
