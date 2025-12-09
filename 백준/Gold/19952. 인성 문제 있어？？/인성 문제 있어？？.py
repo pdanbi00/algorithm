@@ -12,11 +12,11 @@ for _ in range(T):
         r, c, h = map(int, input().split())
         board[r-1][c-1] = h
 
-    visited = set()
+    visited = [[False] * W for _ in range(H)]
 
     q = deque()
     q.append((s_r-1, s_c-1, F))
-    visited.add((s_r-1, s_c-1, F))
+    visited[s_r-1][s_c-1] = True
 
     dr = [-1, 1, 0, 0]
     dc = [0, 0, -1, 1]
@@ -37,13 +37,13 @@ for _ in range(T):
 
             if 0 <= nr < H and 0 <= nc < W:
                 if board[nr][nc] > board[r][c]:
-                    if p >= board[nr][nc] - board[r][c] and (nr, nc, p-1) not in visited:
+                    if p >= board[nr][nc] - board[r][c] and not visited[nr][nc]:
                         q.append((nr, nc, p-1))
-                        visited.add((nr, nc, p-1))
+                        visited[nr][nc] = True
                 else:
-                    if (nr, nc, p-1) not in visited:
+                    if not visited[nr][nc]:
                         q.append((nr, nc, p - 1))
-                        visited.add((nr, nc, p - 1))
+                        visited[nr][nc] = True
 
 
     if possible:
