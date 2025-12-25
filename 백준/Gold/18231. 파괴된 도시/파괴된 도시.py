@@ -11,23 +11,38 @@ for _ in range(M):
 
 K = int(input())
 destroyed = list(map(int, input().split()))
+destroyed.sort()
 
-answer = []
-visited = set()
+is_destroyed = [False] * (N+1)
 for d in destroyed:
-    possible = True
-    for next_d in graph[d]:
-        if next_d not in destroyed:
-            possible = False
-            break
-    if possible:
-        answer.append(d)
-        visited.add(d)
-        for next_d in graph[d]:
-            visited.add(next_d)
+    is_destroyed[d] = True
+result = []
 
-if len(visited) == len(destroyed):
-    print(len(answer))
-    print(*answer)
-else:
+for d in destroyed:
+    for j in graph[d]:
+        if is_destroyed[j] == False:
+            break
+    else:
+        result.append(d)
+
+if len(result) == 0:
     print(-1)
+
+else:
+    check = set()
+    for i in result:
+        check.add(i)
+        for j in graph[i]:
+            check.add(j)
+    check = sorted(list(check))
+    if len(check) != K:
+        print(-1)
+    else:
+        for i in range(K):
+            if check[i] != destroyed[i]:
+                print(-1)
+                break
+        else:
+            result.sort()
+            print(len(result))
+            print(*result)
