@@ -9,7 +9,7 @@ for _ in range(M):
         lights[b-1] = c
     elif a == 2:
         for i in range(b-1, c):
-            lights[i] = (lights[i] + 1) % 2
+            lights[i] ^= 1
     elif a == 3:
         for i in range(b-1, c):
             lights[i] = 0
