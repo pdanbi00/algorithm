@@ -1,5 +1,4 @@
-import datetime
-months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-days = ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"]
+from datetime import datetime
+months = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 D, M = map(int, input().split())
-print(days[(sum(months[:M-1]) + D) % 7])
+print(months[datetime(year=2009, month=M, day=D).weekday()])
