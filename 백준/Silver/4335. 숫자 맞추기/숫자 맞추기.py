@@ -1,30 +1,24 @@
 import sys
 input = sys.stdin.readline
-nums = [i for i in range(1, 11)]
-possible = True
+
+max_num = 10
+min_num = 1
 while True:
     num = int(input().rstrip())
     if num == 0:
         break
     answer = input().rstrip()
     if answer == 'right on':
-        if num in nums:
+        if num >= min_num and num <= max_num:
             print("Stan may be honest")
         else:
             print("Stan is dishonest")
 
-        nums = [i for i in range(1, 11)]
+        max_num = 10
+        min_num = 1
     elif answer == "too high":
-        tmp = []
-        for n in nums:
-            if n < num:
-                tmp.append(n)
-        nums = tmp
+        max_num = min(max_num, num-1)
         # print(nums)
     elif answer == 'too low':
-        tmp = []
-        for n in nums:
-            if n > num:
-                tmp.append(n)
-        nums = tmp
+        min_num = max(min_num, num+1)
         # print(nums)
