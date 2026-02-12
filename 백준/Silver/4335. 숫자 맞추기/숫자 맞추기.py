@@ -1,10 +1,12 @@
+import sys
+input = sys.stdin.readline
 nums = [i for i in range(1, 11)]
 possible = True
 while True:
-    num = int(input())
+    num = int(input().rstrip())
     if num == 0:
         break
-    answer = input()
+    answer = input().rstrip()
     if answer == 'right on':
         if num in nums:
             print("Stan may be honest")
