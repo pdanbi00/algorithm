@@ -10,6 +10,9 @@ q.append((1, 1, 1))
 while q:
     length, water, day = q.popleft()
 
+    if day > used[N][0]:
+        break
+
     tmp = length * length
     if tmp <= N and (used[tmp][0] > day + 1 or (used[tmp][0] == day + 1 and used[tmp][1] > water + 5)):
         q.append((tmp, water + 5, day + 1))
