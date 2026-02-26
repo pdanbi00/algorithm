@@ -13,7 +13,7 @@ for i in range(14):
 J += stock_j * stock[13]
 
 # 성민이
-for i in range(4, 14):
+for i in range(3, 14):
     # 3일 연속 상승인지 확인
     cnt = 0
     for j in range(3, 0, -1):
