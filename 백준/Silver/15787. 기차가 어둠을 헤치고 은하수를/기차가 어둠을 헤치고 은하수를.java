@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Arrays;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,13 +43,10 @@ public class Main {
                 train[b-1][19] = 0;
             }
         }
-        Set<List<Integer>> milkyWay = new HashSet<>();
+
+        Set<String> milkyWay = new HashSet<>();
         for (int i = 0; i < N; i++) {
-            List<Integer> list = new ArrayList<>();
-            for (int j = 0; j < 20; j++) {
-                list.add(train[i][j]);
-            }
-            milkyWay.add(list);
+            milkyWay.add(Arrays.toString(train[i]));
         }
         System.out.print(milkyWay.size());
     }
