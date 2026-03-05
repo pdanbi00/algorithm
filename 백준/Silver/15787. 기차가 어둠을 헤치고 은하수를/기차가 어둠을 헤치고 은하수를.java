@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Arrays;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,40 +11,30 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        int[][] train = new int[N][20];
+        int[] train = new int[N];
 
         int a, b, c;
+        int defaultNum = (int) Math.pow(2, 20);
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             a = Integer.parseInt(st.nextToken());
+            b = Integer.parseInt(st.nextToken());
             if (a == 1) {
-                b = Integer.parseInt(st.nextToken());
                 c = Integer.parseInt(st.nextToken());
-                train[b-1][c-1] = 1;
+                train[b-1] = (defaultNum>>c)|train[b-1];
             } else if (a == 2) {
-                b = Integer.parseInt(st.nextToken());
                 c = Integer.parseInt(st.nextToken());
-                train[b-1][c-1] = 0;
+                train[b-1] = (~(defaultNum>>c))&train[b-1];
             } else if (a == 3) {
-                b = Integer.parseInt(st.nextToken());
-                train[b-1][19] = 0;
-                for (int j = 18; j >= 0; j--) {
-                    train[b-1][j+1] = train[b-1][j];
-                }
-                train[b-1][0] = 0;
+                train[b-1] = train[b-1]>>1;
             } else {
-                b = Integer.parseInt(st.nextToken());
-                train[b-1][0] = 0;
-                for (int j = 0; j < 19; j++) {
-                    train[b-1][j] = train[b-1][j+1];
-                }
-                train[b-1][19] = 0;
+                train[b-1] = (int) ((train[b-1]<<1)%defaultNum);
             }
         }
 
-        Set<String> milkyWay = new HashSet<>();
+        Set<Integer> milkyWay = new HashSet<>();
         for (int i = 0; i < N; i++) {
-            milkyWay.add(Arrays.toString(train[i]));
+            milkyWay.add(train[i]);
         }
         System.out.print(milkyWay.size());
     }
