@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def check(num):
     l = len(num)
     for i in range(l//2):
@@ -8,7 +11,7 @@ def check(num):
 
 
 while True:
-    N = input()
+    N = input().rstrip()
     n = int(N)
     zero = 0
     l = len(str(n))
@@ -17,7 +20,6 @@ while True:
             zero += 1
         else:
             break
-
 
     if N == '0':
         break
