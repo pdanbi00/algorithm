@@ -15,18 +15,18 @@ dc = [0, 0, -1, 1]
 
 while q:
     r, c = q.popleft()
-    
+
     if r == N-1 and c == N-1:
-        break
+        continue
 
     for k in range(4):
         nr = r + dr[k]
         nc = c + dc[k]
-        if 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == -1:
-            if board[nr][nc] == '1':
+        if 0 <= nr < N and 0 <= nc < N:
+            if board[nr][nc] == '1' and (visited[nr][nc] == -1 or visited[nr][nc] > visited[r][c]):
                 q.appendleft((nr, nc))
                 visited[nr][nc] = visited[r][c]
-            elif board[nr][nc] == '0':
+            elif board[nr][nc] == '0' and (visited[nr][nc] == -1 or visited[nr][nc] > visited[r][c] + 1):
                 q.append((nr, nc))
                 visited[nr][nc] = visited[r][c] + 1
 
