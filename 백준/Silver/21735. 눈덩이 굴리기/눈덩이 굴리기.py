@@ -1,34 +1,20 @@
-from collections import deque
 N, M = map(int, input().split())
 yard = [0] + list(map(int, input().split()))
+dp = [[-1] * (N+1) for _ in range(M+1)]
 
 answer = 1
-visited = set()
+dp[0][0] = 1
+for i in range(M):
+    for j in range(N):
+        if dp[i][j] != -1:
+            # 던지기
+            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j] + yard[j+1])
 
-q = deque()
-q.append((0, 0, 1))
-visited.add((0, 0, 1))
-dx = [1, 2]
-while q:
-    idx, time, size = q.popleft()
-    if time == M or idx >= N:
-        answer = max(answer, size)
-        continue
+            # 굴리기
+            if j+2 <= N:
+                dp[i+1][j+2] = max(dp[i+1][j+2], dp[i][j] // 2 + yard[j+2])
 
-    # 굴리기
-    n_idx = idx + 1
-    if n_idx <= N:
-        tmp_size = size + yard[n_idx]
-        if (n_idx, time+1, tmp_size) not in visited:
-            q.append((n_idx, time+1, tmp_size))
-            visited.add((n_idx, time+1, tmp_size))
-
-    # 던지기
-    n_idx = idx + 2
-    if n_idx <= N:
-        tmp_size = (size // 2) + yard[n_idx]
-        if (n_idx, time+1, tmp_size) not in visited:
-            q.append((n_idx, time+1, tmp_size))
-            visited.add((n_idx, time+1, tmp_size))
+for i in range(M+1):
+    answer = max(answer, max(dp[i]))
 
 print(answer)
