@@ -3,25 +3,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 public class Main {
-    static ArrayList<ArrayList<Integer>> graph;
-    static boolean[] visited;
-    static void dfs(int cur) {
-        for (int i = 0; i < graph.get(cur).size(); i++) {
-            int now = graph.get(cur).get(i);
-            if (!visited[now]) {
-                visited[now] = true;
-                dfs(now);
-            }
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        graph = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
         for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
@@ -32,11 +22,24 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
             graph.get(b).add(a);
         }
-        visited = new boolean[N+1];
+        boolean[] visited = new boolean[N+1];
         int X = Integer.parseInt(br.readLine());
+        Queue<Integer> q = new LinkedList<>();
         visited[X] = true;
+        q.add(X);
+        while (!q.isEmpty()) {
+            int cur = q.poll();
 
-        dfs(X);
+            for (int i = 0; i < graph.get(cur).size(); i++) {
+                int next = graph.get(cur).get(i);
+
+                if (!visited[next]) {
+                    q.add(next);
+                    visited[next] = true;
+                }
+            }
+        }
+
         int ans = 0;
         for (int i = 0; i <= N; i++) {
             if (visited[i]) {
