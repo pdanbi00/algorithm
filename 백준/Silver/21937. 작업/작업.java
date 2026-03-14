@@ -26,6 +26,7 @@ public class Main {
         int X = Integer.parseInt(br.readLine());
         Queue<Integer> q = new LinkedList<>();
         visited[X] = true;
+        int cnt = 0;
         q.add(X);
         while (!q.isEmpty()) {
             int cur = q.poll();
@@ -36,16 +37,10 @@ public class Main {
                 if (!visited[next]) {
                     q.add(next);
                     visited[next] = true;
+                    cnt++;
                 }
             }
         }
-
-        int ans = 0;
-        for (int i = 0; i <= N; i++) {
-            if (visited[i]) {
-                ans += 1;
-            }
-        }
-        System.out.print(ans-1);
+        System.out.print(cnt);
     }
 }
