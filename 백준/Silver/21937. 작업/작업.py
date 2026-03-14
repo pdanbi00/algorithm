@@ -1,5 +1,5 @@
+from collections import deque
 import sys
-sys.setrecursionlimit(10**9)
 input = sys.stdin.readline
 N, M = map(int, input().split())
 
@@ -10,16 +10,18 @@ for _ in range(M):
 
 X = int(input())
 
-# finished = set()
-visited = [0] * (N+1)
-visited[X] = 1
+visited = [False] * (N+1)
 
-def dfs(cur):
+visited[X] = True
+q = deque()
+q.append(X)
+
+while q:
+    cur = q.popleft()
+
     for k in graph[cur]:
         if not visited[k]:
+            q.append(k)
             visited[k] = True
-            dfs(k)
 
-
-dfs(X)
 print(sum(visited)-1)
