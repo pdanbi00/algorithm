@@ -1,16 +1,12 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-x1 = 100000
-x2 = -100000
-y1 = 100000
-y2 = -100000
+x_arr = []
+y_arr = []
 
 for _ in range(N):
     x, y = map(int, input().split())
-    x1 = min(x1, x)
-    x2 = max(x2, x)
-    y1 = min(y1, y)
-    y2 = max(y2, y)
+    x_arr.append(x)
+    y_arr.append(y)
 
-print((x2-x1) * (y2-y1))
+print((max(x_arr) - min(x_arr)) * (max(y_arr) - min(y_arr)))
