@@ -19,6 +19,8 @@ public class Main {
             xArr.add(x);
             yArr.add(y);
         }
-        System.out.print((Collections.max(xArr) - Collections.min(xArr)) * (Collections.max(yArr) - Collections.min(yArr)));
+        Collections.sort(xArr);
+        Collections.sort(yArr);
+        System.out.print((xArr.get(N-1)-xArr.get(0)) * (yArr.get(N-1) - yArr.get(0)));
     }
 }
