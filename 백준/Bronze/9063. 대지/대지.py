@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 N = int(input())
 x1 = 100000
 x2 = -100000
