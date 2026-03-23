@@ -3,40 +3,36 @@ input = sys.stdin.readline
 
 N = int(input())
 total = 0
-ans_idx = []
+result = ''
 for _ in range(N):
     L = int(input())
     jewerly = list(map(int, input().split()))
 
-    # 연속된 보석의 합은 누적합으로 저장
-    sum = []
-    for i in range(L):
-        if i == 0:
-            sum.append((1, jewerly[i]))
+    mx = jewerly[0]
+    mx_start = mx_end = 0
+
+    start = 0
+    end = 0
+
+    for i in range(1, L):
+        if jewerly[i] >= jewerly[i-1] + jewerly[i]:
+            start = i
+            end = i
         else:
-            # 이전 누적을 이어가는 경우
-            if sum[i-1][1] + jewerly[i] > jewerly[i]:
-                # 보석의 가치가 음수일 경우도 있기 때문에
-                sum.append((sum[i-1][0] + 1, sum[i-1][1] + jewerly[i]))
-            else:
-                sum.append((1, jewerly[i]))
+            jewerly[i] = jewerly[i-1] + jewerly[i]
+            end = i
 
-    # 최대 구간 찾기
-    idx = 0
-    cnt = sum[0][0]
-    max_sum = sum[0][1]
+        if jewerly[i] > mx:
+            mx = jewerly[i]
+            mx_start = start
+            mx_end = end
+        elif jewerly[i] == mx and mx_end - mx_start > end - start:
+            mx = jewerly[i]
+            mx_start = start
+            mx_end = end
 
-    for j in range(1, L):
-        if sum[j][1] >= max_sum:
-            if sum[j][1] == max_sum and sum[j][0] >= cnt:
-                continue
-            idx = j
-            cnt = sum[j][0]
-            max_sum = sum[j][1]
-
-    total += max_sum
-    ans_idx.append((idx + 1 - cnt + 1, idx + 1))
+    total += mx
+    result += f'{mx_start+1} {mx_end+1}\n'
 
 print(total)
-for s, e in ans_idx:
-    print(s, e)
+print(result)
