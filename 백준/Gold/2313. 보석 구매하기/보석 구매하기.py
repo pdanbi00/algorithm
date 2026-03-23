@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 N = int(input())
 total = 0
 ans_idx = []
@@ -6,7 +9,6 @@ for _ in range(N):
     jewerly = list(map(int, input().split()))
 
     # 연속된 보석의 합은 누적합으로 저장
-    # 보석의 가치가 음수일 경우도 있기 때문에
     sum = []
     for i in range(L):
         if i == 0:
@@ -14,6 +16,7 @@ for _ in range(N):
         else:
             # 이전 누적을 이어가는 경우
             if sum[i-1][1] + jewerly[i] > jewerly[i]:
+                # 보석의 가치가 음수일 경우도 있기 때문에
                 sum.append((sum[i-1][0] + 1, sum[i-1][1] + jewerly[i]))
             else:
                 sum.append((1, jewerly[i]))
