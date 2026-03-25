@@ -50,12 +50,17 @@ public class Main {
                         break;
                     }
                 }
+                if (!possible) {
+                    break;
+                }
             }
-            cnt++;
-            for (int cur : tmp) {
-                sb.append(cur+1).append(' ');
+            if (possible) {
+                cnt++;
+                for (int cur : tmp) {
+                    sb.append(cur+1).append(' ');
+                }
+                sb.append('\n');
             }
-            sb.append('\n');
         }
 
         if (possible) {
