@@ -1,27 +1,22 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-dots_x = dict()
-x_set = set()
+dots = []
+dot_set = set()
 for _ in range(N):
     x, y = map(int, input().split())
-    x_set.add(x)
-    if x not in dots_x:
-        dots_x[x] = [y]
-    else:
-        dots_x[x].append(y)
+    dots.append((x, y))
+    dot_set.add((x, y))
 
 answer = 0
 
-x_set = list(x_set)
-x_set.sort()
-n = len(x_set)
-for i in range(n):
-    for j in range(i+1, n):
-        for y1 in dots_x[x_set[i]]:
-            for y2 in dots_x[x_set[j]]:
-                if y1 < y2:
-                    if y2 in dots_x[x_set[i]] and y1 in dots_x[x_set[j]]:
-                        answer += 1
-
-print(answer)
+for i in range(N-1):
+    x1, y1 = dots[i][0], dots[i][1]
+    for j in range(i+1, N):
+        x2, y2 = dots[j][0], dots[j][1]
+        if (x1 == x2 or y1 == y2):
+            continue
+        if (x1, y2) in dot_set and (x2, y1) in dot_set:
+            # print((x1, y1), (x2, y2))
+            answer += 1
+print(answer // 2)
