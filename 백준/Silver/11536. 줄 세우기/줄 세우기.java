@@ -28,12 +28,12 @@ public class Main {
         if (possible) {
             System.out.print("INCREASING");
         } else {
-            Arrays.sort(sortedNames, Comparator.reverseOrder());
+
 
             possible = true;
             // 내림차순 체크
             for (int i = 0; i < N; i++) {
-                if (sortedNames[i] != names[i]) {
+                if (sortedNames[N-1-i] != names[i]) {
                     possible = false;
                     break;
                 }
