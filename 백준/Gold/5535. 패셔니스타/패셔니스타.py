@@ -1,5 +1,3 @@
-import sys
-input = sys.stdin.readline
 D, N = map(int, input().split())
 
 temp = [int(input()) for _ in range(D)]
