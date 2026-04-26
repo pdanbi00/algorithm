@@ -1,20 +1,22 @@
+from heapq import heappush, heappop
+import sys
+input = sys.stdin.readline
 N = int(input())
-vote = [int(input()) for _ in range(N)]
+dasom = int(input())
+hq = []
 
-me = vote[0]
+for _ in range(N-1):
+    heappush(hq, -int(input()))
 
-if N == 1:
-    print(0)
-else:
-    vote = sorted(vote[1:], reverse=True)
-    cnt = 0
-    if me <= vote[0]:
-        while True:
-            vote[0] -= 1
-            cnt += 1
-            me += 1
-            vote.sort(reverse=True)
-            if me > vote[0]:
-                break
+cnt = 0
+while hq:
+    tmp = heappop(hq)
+    tmp = -tmp
+    if tmp < dasom:
+        break
+    tmp -= 1
+    dasom += 1
+    cnt += 1
+    heappush(hq, -tmp)
 
-    print(cnt)
+print(cnt)
