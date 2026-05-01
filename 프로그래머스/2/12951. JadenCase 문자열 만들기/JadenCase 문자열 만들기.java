@@ -4,19 +4,27 @@ class Solution {
         String answer = "";
         String[] arr = s.split(" ");
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i].length() == 0) {
-                answer += " ";
+            System.out.println(arr[i]);
+            String tmp = "";
+            for (int j = 0; j < arr[i].length(); j++) {
+                if (j == 0 && Character.isLetter(arr[i].charAt(j))) {
+                    tmp += String.valueOf(arr[i].charAt(j)).toUpperCase();
+                } else if (j == 0 && !Character.isLetter(arr[i].charAt(j))) {
+                    tmp += arr[i].charAt(j);
+                } else {
+                    tmp += String.valueOf(arr[i].charAt(j)).toLowerCase();
+                }
+            }
+            if (i < arr.length - 1) {
+                answer += tmp + " ";
             } else {
-                answer += arr[i].substring(0, 1).toUpperCase();
-                answer += arr[i].substring(1).toLowerCase();
-                answer += " ";
+                answer += tmp;
             }
         }
-        if (s.substring(s.length()-1, s.length()).equals(" ")){
-            return answer;
-        } else {
-            answer = answer.substring(0, answer.length()-1);
+        if (s.substring(s.length() - 1, s.length()).equals(" ")) {
+            return answer + " ";
         }
+        
         return answer;
     }
 }
