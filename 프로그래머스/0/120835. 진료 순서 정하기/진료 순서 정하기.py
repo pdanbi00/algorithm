@@ -3,7 +3,5 @@ def solution(emergency):
     sorted_emergency = sorted(emergency, reverse=True)
     N = len(emergency)
     for i in range(N):
-        for j in range(1, N+1):
-            if emergency[i] == sorted_emergency[j-1]:
-                answer.append(j)
+        answer.append(sorted_emergency.index(emergency[i])+1)
     return answer
