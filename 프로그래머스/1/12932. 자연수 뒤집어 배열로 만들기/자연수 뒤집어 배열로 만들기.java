@@ -12,12 +12,12 @@
 
 class Solution {
     public int[] solution(long n) {
-        int l = Long.toString(n).length();
-        int[] answer = new int[l];
-        for (int i = 0; i < l; i++) {
-            Long tmp = n % 10;
-            answer[i] = tmp.intValue();
+        int idx = 0;
+        int[] answer = new int[Long.toString(n).length()];
+        while (n > 0) {
+            answer[idx] = (int) (n % 10);
             n /= 10;
+            idx++;
         }
         return answer;
     }
