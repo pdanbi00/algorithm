@@ -1,7 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -25,7 +24,7 @@ class Solution {
             }
             
             if (!map.isEmpty()) {
-                List<Integer> countList = new ArrayList<>(map.values());
+                ArrayList<Integer> countList = new ArrayList<>(map.values());
                 int max = Collections.max(countList);
                 if (max > 1) {
                     for (String key : map.keySet()) {
