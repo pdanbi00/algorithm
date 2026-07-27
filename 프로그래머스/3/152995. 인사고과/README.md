@@ -1,10 +1,10 @@
 # [level 3] 인사고과 - 152995 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/152995?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/152995?language=java) 
 
 ### 성능 요약
 
-메모리: 36.9 MB, 시간: 92.66 ms
+메모리: 123 MB, 시간: 69.70 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 07월 27일 10:47:58
+2026년 07월 27일 10:53:51
 
 ### 문제 설명
 
