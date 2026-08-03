@@ -1,35 +1,26 @@
 import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedList;
 
 class Solution {
     public int solution(int[] players, int m, int k) {
         int answer = 0;
         int N = players.length;
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        Queue<Integer> q = new LinkedList<>();
         
         for (int i = 0; i < N; i++) {
-            int user = players[i];
-            int cnt = pq.size();
-            if (user >= (cnt+1) * m) {
-                int need = user / m;
-                
-                answer += need - cnt;
-                for (int j = 0; j < need-cnt; j++) {
-                    pq.offer(k);
-                }
+            int need = players[i] / m;
+            
+            while (!q.isEmpty() && q.peek() <= i) {
+                q.poll();
             }
             
-            ArrayList<Integer> tmp = new ArrayList<>();
-            while (!pq.isEmpty()) {
-                int cur = pq.poll();
-                if (cur - 1 <= 0) {
-                    continue;
+            int current = q.size();
+            if (current < need) {
+                answer += need - current;
+                for (int j = 0; j < need-current; j++) {
+                    q.offer(i+k);
                 }
-                tmp.add(cur-1);
-            }
-            
-            for (int j = 0; j < tmp.size(); j++) {
-                pq.offer(tmp.get(j));
             }
             
         }
