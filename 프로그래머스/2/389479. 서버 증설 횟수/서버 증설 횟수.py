@@ -1,39 +1,22 @@
-from heapq import heappush, heappop
-
+from collections import deque
 
 def solution(players, m, k):
     answer = 0
-    servers = []
+    servers = deque()
     n = len(players)
     for i in range(n):
-        user = players[i]
-        tmp = []
-        cnt = len(servers)
-        
-        if (user >= (cnt + 1) * m):
-            need = user // m
-            # if (user-1) % m > 0:
-            #     need += 1
-            answer += need - cnt
-
-            for _ in range(need - cnt):
-                heappush(servers, k)
+        need = players[i] // m
                 
         while servers:
-            server = heappop(servers)
-            if server - 1 <= 0:
-                continue
-            tmp.append(server - 1)
-            
-        while tmp:
-            heappush(servers, tmp.pop())
+            server = servers.popleft()
+            if server > i:
+                servers.appendleft(server)
+                break
+        
+        current = len(servers)
+        if current < need:
+            answer += need - current
+            for j in range(need-current):
+                servers.append(i+k)
 
-#         if (user >= (cnt + 1) * m):
-#             need = user // m
-#             # if (user-1) % m > 0:
-#             #     need += 1
-#             answer += need - cnt
-
-#             for _ in range(need - cnt):
-#                 heappush(servers, k-1)
     return answer
