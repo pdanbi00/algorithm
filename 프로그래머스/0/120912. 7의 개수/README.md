@@ -1,10 +1,10 @@
 # [level 0] 7의 개수 - 120912 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120912) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120912?language=python3) 
 
 ### 성능 요약
 
-메모리: 73.5 MB, 시간: 0.01 ms
+메모리: 11.6 MB, 시간: 0.01 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 09월 08일 09:38:48
+2026년 09월 08일 10:00:54
 
 ### 문제 설명
 
