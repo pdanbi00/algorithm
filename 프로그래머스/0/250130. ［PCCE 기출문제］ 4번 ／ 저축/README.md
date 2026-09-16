@@ -1,10 +1,10 @@
 # [level 0] [PCCE 기출문제] 4번 / 저축 - 250130 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250130) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250130?language=java) 
 
 ### 성능 요약
 
-메모리: 9.26 MB, 시간: 12.06 ms
+메모리: 75.4 MB, 시간: 158.26 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 09월 16일 14:35:46
+2026년 09월 16일 14:36:25
 
 ### 문제 설명
 
