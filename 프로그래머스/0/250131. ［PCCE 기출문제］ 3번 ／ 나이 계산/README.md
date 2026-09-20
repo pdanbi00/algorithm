@@ -1,10 +1,10 @@
 # [level 0] [PCCE 기출문제] 3번 / 나이 계산 - 250131 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250131) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250131?language=java) 
 
 ### 성능 요약
 
-메모리: 9.2 MB, 시간: 11.66 ms
+메모리: 77.6 MB, 시간: 137.83 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 09월 20일 23:49:21
+2026년 09월 20일 23:50:16
 
 ### 문제 설명
 
