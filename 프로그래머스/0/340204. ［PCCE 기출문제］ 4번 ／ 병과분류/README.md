@@ -1,10 +1,10 @@
 # [level 0] [PCCE 기출문제] 4번 / 병과분류 - 340204 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340204) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340204?language=python3) 
 
 ### 성능 요약
 
-메모리: 75.3 MB, 시간: 137.52 ms
+메모리: 9.18 MB, 시간: 13.19 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 09월 21일 23:57:43
+2026년 09월 21일 23:59:03
 
 ### 문제 설명
 
