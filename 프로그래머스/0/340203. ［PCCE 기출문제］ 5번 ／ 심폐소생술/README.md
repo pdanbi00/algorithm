@@ -1,10 +1,10 @@
 # [level 0] [PCCE 기출문제] 5번 / 심폐소생술 - 340203 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340203) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340203?language=python3) 
 
 ### 성능 요약
 
-메모리: 73.2 MB, 시간: 0.03 ms
+메모리: 11.3 MB, 시간: 0.01 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 09월 24일 21:09:37
+2026년 09월 24일 21:11:14
 
 ### 문제 설명
 
