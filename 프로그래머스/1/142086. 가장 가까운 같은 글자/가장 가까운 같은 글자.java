@@ -1,0 +1,21 @@
+import java.util.Map;
+import java.util.HashMap;
+
+class Solution {
+    public int[] solution(String s) {
+        int N = s.length();
+        int[] answer = new int[N];
+        
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                answer[i] = i - map.get(c);
+            } else {
+                answer[i] = -1;
+            }
+            map.put(c, i);
+        }
+        return answer;
+    }
+}
