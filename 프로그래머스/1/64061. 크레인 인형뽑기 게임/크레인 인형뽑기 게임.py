@@ -1,18 +1,23 @@
 def solution(board, moves):
-    stacklist = []
     answer = 0
+    N = len(board)
+    stack = []
+    for m in moves:
+        # c = m-1
+        idx = 0
+        while idx < N and board[idx][m-1] == 0 :
+            idx += 1
 
-    for i in moves:
-        for j in range(len(board)):
-            if board[j][i-1] != 0:
-                stacklist.append(board[j][i-1])
-                board[j][i-1] = 0
-
-                if len(stacklist) > 1:
-                    if stacklist[-1] == stacklist[-2]:
-                        stacklist.pop(-1)
-                        stacklist.pop(-1)
-                        answer += 2     
-                break
-
+        if idx < N:
+            tmp = board[idx][m-1]
+            # print(tmp)
+            board[idx][m-1] = 0
+            if not stack:
+                stack.append(tmp)
+            else:
+                if stack[-1] == tmp:
+                    stack.pop(-1)
+                    answer += 2
+                else:
+                    stack.append(tmp)
     return answer
